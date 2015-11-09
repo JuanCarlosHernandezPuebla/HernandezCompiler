@@ -1,0 +1,3 @@
+{ Test for a few invalid symbols}
+
+These are a few invalid symbols % $ @

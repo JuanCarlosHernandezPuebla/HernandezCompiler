@@ -1,0 +1,11 @@
+{Test for invalid number representations in the mini-Pascal language}
+
+.5
+34775.
+623.634.287
+9533.E+764
+745.E-84547
+8973.E7983475
+6872.E.783
+765436E
+856.E37298.

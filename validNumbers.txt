@@ -1,0 +1,16 @@
+{Test for valid number representations in the mini-Pascal language}
+
+Valid numbers
+3
+5468204486
+1.3
+9430.97986
+845.589E43
+4353.09E+855
+3656.332E-7895
+5.29E+6835
+9.67E-324854
+4.54E54974
+789E435668564
+438E+05098
+927E-35959

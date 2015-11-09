@@ -1,0 +1,5 @@
+{ Test all valid short symbols for the mini-Pascal language }
+
+Valid short symbols :
+<
+>

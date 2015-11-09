@@ -1,0 +1,18 @@
+{ Test all valid symbols in the mini-Pascal language }
+
+Valid symbols
++
+-
+*
+/
+;
+,
+[
+]
+(
+)
+=
+:=
+<=
+<>
+>=
