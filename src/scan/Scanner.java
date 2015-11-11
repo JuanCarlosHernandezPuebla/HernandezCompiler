@@ -54,6 +54,9 @@ public class Scanner {
 		while (stateNumber < ERROR) {
 			try {
 				currentCharacter = this.input.read();
+				if(currentCharacter == -1) {
+					System.out.println();
+				}
 			} catch (IOException e) {
 				//
 			}

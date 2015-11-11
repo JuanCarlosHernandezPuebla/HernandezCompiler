@@ -83,7 +83,7 @@ public class ScannerTest {
         // Test to make sure the above values are correct
 		assertEquals(false, hasToken);
 		assertEquals(null, token);
-		//assertEquals(null, lexeme);
+		assertEquals(null, lexeme);
         
 		
 		
