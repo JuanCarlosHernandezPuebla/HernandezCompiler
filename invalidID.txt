@@ -1,0 +1,3 @@
+{Test for an invalid ID}
+
+2myBank 2invalid 1 1dir2home * 45

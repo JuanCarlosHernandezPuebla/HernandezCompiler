@@ -21,11 +21,11 @@ public class Scanner {
 	// Constant variables
 	private final int START = 0;
 	private final int IN_ID_OR_KEYWORD = 1;
-	private final int ERROR = 11;
-	private final int ID_COMPLETE = 12;
-	private final int SYMBOL_COMPLETE = 13;
-	private final int SHORT_SYMBOL_COMPLETE = 14;
-	private final int NUM_COMPLETE = 15;
+	private final int ERROR = 12;
+	private final int ID_COMPLETE = 13;
+	private final int SYMBOL_COMPLETE = 14;
+	private final int SHORT_SYMBOL_COMPLETE = 15;
+	private final int NUM_COMPLETE = 16;
 
 	// Constructor
 	/**Creates a Scanner that takes in an input file to scan from.
@@ -51,59 +51,68 @@ public class Scanner {
 		String currentLexeme = "";
 		int currentCharacter = 0;
 
-		while (stateNumber < ERROR) {
+		while(stateNumber < ERROR) {
 			try {
 				currentCharacter = this.input.read();
-				if(currentCharacter == -1) {
-					System.out.println();
-				}
 			} catch (IOException e) {
 				//
 			}
-			switch (stateNumber) {
+			switch(stateNumber) {
 			case START:
-				if (currentCharacter == -1) {
+				if(currentCharacter == -1) {
 					/* Has reached the end of the file, so it sets both lexeme
 					 * and token to null*/
 					this.lexeme = null;
 					this.type = null;
 					return false;
-				} else if (Character.isLetter(currentCharacter)) {
+				}
+				else if(Character.isLetter(currentCharacter)) {
 					stateNumber = IN_ID_OR_KEYWORD;
 					currentLexeme += (char) currentCharacter;
-				} else if (Character.isWhitespace(currentCharacter)) {
+				}
+				else if(Character.isWhitespace(currentCharacter)) {
 					// Ignore whitespace 
-				} else if (currentCharacter == '+' || currentCharacter == '-' || currentCharacter == '*'
+				}
+				else if(currentCharacter == '+' || currentCharacter == '-' || currentCharacter == '*'
 						|| currentCharacter == '/' || currentCharacter == ';' || currentCharacter == ','
 						|| currentCharacter == '[' || currentCharacter == ']' || currentCharacter == '('
 						|| currentCharacter == ')' || currentCharacter == '=') {
 					stateNumber = SYMBOL_COMPLETE;
 					currentLexeme += (char) currentCharacter;
-				} else if (currentCharacter == ':') {
+				}
+				else if(currentCharacter == ':') {
 					stateNumber = 2;
 					currentLexeme += (char) currentCharacter;
-				} else if (currentCharacter == '<') {
+				}
+				else if(currentCharacter == '<') {
 					stateNumber = 3;
 					currentLexeme += (char) currentCharacter;
-				} else if (currentCharacter == '>') {
+				}
+				else if(currentCharacter == '>') {
 					stateNumber = 4;
 					currentLexeme += (char) currentCharacter;
-				} else if (currentCharacter == '{') {
+				}
+				else if(currentCharacter == '{') {
 					stateNumber = 5;
-				} else if (Character.isDigit(currentCharacter)) {
+				}
+				else if(Character.isDigit(currentCharacter)) {
 					stateNumber = 6;
 					currentLexeme += (char) currentCharacter;
-				} else {
+				}
+				else {
 					stateNumber = ERROR;
 					currentLexeme += (char) currentCharacter;
 				}
 				break;
 			case IN_ID_OR_KEYWORD:
-				if (currentCharacter == -1) {
+				// Has reached end of file
+				if(currentCharacter == -1) {
 					stateNumber = ID_COMPLETE;
-				} else if (Character.isLetterOrDigit(currentCharacter)) {
+				}
+				else if(Character.isLetterOrDigit(currentCharacter)) {
 					currentLexeme += (char) currentCharacter;
-				} else {
+				}
+				else {
 					try {
 						this.input.unread(currentCharacter);
 					} catch (IOException e) {
@@ -113,10 +122,11 @@ public class Scanner {
 				}
 				break;
 			case 2:
-				if (currentCharacter == '=') {
+				if(currentCharacter == '=') {
 					stateNumber = SYMBOL_COMPLETE;
 					currentLexeme += (char) currentCharacter;
-				} else {
+				}
+				else {
 					try {
 						this.input.unread(currentCharacter);
 					} catch (IOException e) {
@@ -126,13 +136,15 @@ public class Scanner {
 				}
 				break;
 			case 3:
-				if (currentCharacter == '=') {
+				if(currentCharacter == '=') {
 					stateNumber = SYMBOL_COMPLETE;
 					currentLexeme += (char) currentCharacter;
-				} else if (currentCharacter == '>') {
+				}
+				else if(currentCharacter == '>') {
 					stateNumber = SYMBOL_COMPLETE;
 					currentLexeme += (char) currentCharacter;
-				} else {
+				} 
+				else {
 					try {
 						this.input.unread(currentCharacter);
 					} catch (IOException e) {
@@ -142,10 +154,15 @@ public class Scanner {
 				}
 				break;
 			case 4:
-				if (currentCharacter == '=') {
+				// Has reached end of file
+				if(currentCharacter == -1) {
+					stateNumber = SHORT_SYMBOL_COMPLETE;
+				}
+				else if(currentCharacter == '=') {
 					stateNumber = SYMBOL_COMPLETE;
 					currentLexeme += (char) currentCharacter;
-				} else {
+				}
+				else {
 					try {
 						this.input.unread(currentCharacter);
 					} catch (IOException e) {
@@ -155,30 +172,37 @@ public class Scanner {
 				}
 				break;
 			case 5:
-				if (currentCharacter == '{') {
+				if(currentCharacter == '{') {
 					stateNumber = ERROR;
 					currentLexeme += (char) currentCharacter;
-				} else if (currentCharacter == '}') {
+				}
+				else if(currentCharacter == '}') {
 					stateNumber = START;
-				} else {
+				}
+				else {
 					// Stay in state 5(comment state)
 				}
 				break;
 			case 6:
-				if (Character.isDigit(currentCharacter)) {
+				// Has reached end of file
+				if(currentCharacter == -1) {
+					stateNumber = NUM_COMPLETE;
+				}
+				else if(Character.isDigit(currentCharacter)) {
 					// Stay in state 6 and append
 					currentLexeme += (char) currentCharacter;
 				} 
-				else if (currentCharacter == '.') {
+				else if(currentCharacter == '.') {
 					stateNumber = 7;
 					currentLexeme += (char) currentCharacter;
 				}
-				else if (currentCharacter == 'E') {
+				else if(currentCharacter == 'E') {
 					stateNumber = 9;
 					currentLexeme += (char) currentCharacter;
 				}
+				// Situation of an invalid ID 
 				else if(Character.isLetter(currentCharacter)) {
-					stateNumber = ERROR;
+					stateNumber = 11;
 					currentLexeme += (char) currentCharacter;
 				}
 				else {
@@ -191,22 +215,28 @@ public class Scanner {
 				}
 				break;
 			case 7:
-				if (Character.isDigit(currentCharacter)) {
+				if(Character.isDigit(currentCharacter)) {
 					stateNumber = 8;
 					currentLexeme += (char) currentCharacter;
-				} else {
+				}
+				else if(Character.isWhitespace(currentCharacter)) {
+					stateNumber = ERROR;
+				}
+				else {
 					stateNumber = ERROR;
 					currentLexeme += (char) currentCharacter;
 				}
 				break;
 			case 8:
-				if (Character.isDigit(currentCharacter)) {
+				if(Character.isDigit(currentCharacter)) {
 					// Stay in state 8 and append
 					currentLexeme += (char) currentCharacter;
-				} else if (currentCharacter == 'E') {
+				}
+				else if(currentCharacter == 'E') {
 					stateNumber = 9;
 					currentLexeme += (char) currentCharacter;
-				} else {
+				}
+				else {
 					try {
 						this.input.unread(currentCharacter);
 					} catch (IOException e) {
@@ -216,16 +246,15 @@ public class Scanner {
 				}
 				break;
 			case 9:
-				if (Character.isDigit(currentCharacter)) {
+				if(Character.isDigit(currentCharacter)) {
 					stateNumber = 10;
 					currentLexeme += (char) currentCharacter;
-				} else if (currentCharacter == '+') {
+				}
+				else if(currentCharacter == '+' || currentCharacter == '-') {
 					stateNumber = 10;
 					currentLexeme += (char) currentCharacter;
-				} else if (currentCharacter == '-') {
-					stateNumber = 10;
-					currentLexeme += (char) currentCharacter;
-				} else {
+				}
+				else {
 					try {
 						this.input.read();
 					} catch (IOException e) {
@@ -235,10 +264,15 @@ public class Scanner {
 				}
 				break;
 			case 10:
-				if (Character.isDigit(currentCharacter)) {
+				// Has reached end of file 
+				if(currentCharacter == -1) {
+					stateNumber = NUM_COMPLETE;
+				}
+				else if(Character.isDigit(currentCharacter)) {
 					// Stay in state 10 and append
 					currentLexeme += (char) currentCharacter;
-				} else {
+				}
+				else {
 					try {
 						this.input.unread(currentCharacter);
 					} catch (IOException e) {
@@ -247,28 +281,43 @@ public class Scanner {
 					stateNumber = NUM_COMPLETE;
 				}
 				break;
+			case 11:
+				// Represent state For invalid ID
+				if(currentCharacter == -1) {
+					stateNumber = ERROR;
+				}
+				else if(!Character.isWhitespace(currentCharacter)) {
+					currentLexeme += (char) currentCharacter; 
+				}
+				else {
+					stateNumber = ERROR;
+				}
 
 			} // End of switch
 		} // End of while
 		this.lexeme = currentLexeme;
-		if (stateNumber == ERROR) {
+		if(stateNumber == ERROR) {
 			this.type = null;
 			return false;
-		} else if (stateNumber == ID_COMPLETE) {
+		}
+		else if(stateNumber == ID_COMPLETE) {
 			this.type = lookup.get(this.lexeme);
-			if (this.type == null) {
+			if(this.type == null) {
 				this.type = TokenType.ID;
 			}
 			return true;
-		} else if (stateNumber == SYMBOL_COMPLETE) {
+		}
+		else if(stateNumber == SYMBOL_COMPLETE) {
 			this.type = lookup.get(this.lexeme);
 			return true;
-		} else if (stateNumber == SHORT_SYMBOL_COMPLETE) {
+		}
+		else if(stateNumber == SHORT_SYMBOL_COMPLETE) {
 			this.type = lookup.get(this.lexeme);
 			return true;
-		} else if (stateNumber == NUM_COMPLETE) {
+		}
+		else if(stateNumber == NUM_COMPLETE) {
 			this.type = lookup.get(lexeme);
-			if (this.type == null) {
+			if(this.type == null) {
 				this.type = TokenType.NUM;
 			}
 			return true;

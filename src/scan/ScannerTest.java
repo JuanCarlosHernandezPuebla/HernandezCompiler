@@ -75,7 +75,7 @@ public class ScannerTest {
 		assertEquals(TokenType.NUM, token);
 		assertEquals("7", lexeme);
         
-        // Test end of file
+        // Test end of input.txt
         hasToken = test.nextToken();
         token = test.getToken();
         lexeme = test.getLexeme();
@@ -107,7 +107,7 @@ public class ScannerTest {
 		// Test goodComment.txt
 		test = new Scanner(new File("goodComment.txt"));
 		
-		// Should ignore the comment
+		// Should ignore the comment and be at end of file
 		hasToken = test.nextToken();
 		token = test.getToken();
 		lexeme = test.getLexeme();
@@ -293,6 +293,16 @@ public class ScannerTest {
 		assertEquals(TokenType.GREATER_THAN_EQUALS, token);
 		assertEquals(">=", lexeme);
 		
+		//Test end of validSymbols.txt
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+		
+		// Test to make sure the above values are correct
+		assertEquals(false,hasToken);
+		assertEquals(null,token);
+		assertEquals(null,lexeme);
+		
 		
 		
 		
@@ -358,6 +368,16 @@ public class ScannerTest {
 		assertEquals(true, hasToken);
 		assertEquals(TokenType.GREATER_THAN, token);
 		assertEquals(">", lexeme);
+		
+		// Test end of validShortSymbols.txt
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+		
+		// Test to make sure the above values are correct
+		assertEquals(false, hasToken);
+		assertEquals(null,token);
+		assertEquals(null,lexeme);
 		
 		
 		
@@ -454,6 +474,16 @@ public class ScannerTest {
 		assertEquals(false, hasToken);
 		assertEquals(null, token);
 		assertEquals("@", lexeme);
+		
+		// Test end of invalidSymbols.txt
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+		
+		// Test to make sure the above values are correct
+		assertEquals(false,hasToken);
+		assertEquals(null,token);
+		assertEquals(null,lexeme);
 		
 		
 		
@@ -611,6 +641,16 @@ public class ScannerTest {
 		assertEquals(TokenType.NUM, token);
 		assertEquals("927E-35959", lexeme);
 		
+		// Test end of validNumbers.txt
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+		
+		// Test to make sure the above values are correct
+		assertEquals(false, hasToken);
+		assertEquals(null, token);
+		assertEquals(null, lexeme);
+		
 		
 		
 		
@@ -645,13 +685,93 @@ public class ScannerTest {
 		// Test to make sure the above values are correct
 		assertEquals(false, hasToken);
 		assertEquals(null, token);
-		//assertEquals("34775.",lexeme);	
+		assertEquals("34775.",lexeme);
+		
+		/*// This should be the 623.634.287 token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+		
+		// Test to make sure the above values are correct
+		assertEquals(false, hasToken);
+		assertEquals(null, token);
+		assertEquals("623.634.287", lexeme);
+		
+		// This should be the 9533.E+764 token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(false, hasToken);
+		assertEquals(null, token);
+		assertEquals("9533.E", lexeme);
+		
+		// This should be the 745.E-84547 token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(false, hasToken);
+		assertEquals(null, token);
+		assertEquals("745.E-84547", lexeme);
+		
+		// This should be the 8973.E7983475 token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(false, hasToken);
+		assertEquals(null, token);
+		assertEquals("8973.E7983475", lexeme);
+		
+		// This should be the 6872.E.783 token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(false, hasToken);
+		assertEquals(null, token);
+		assertEquals("6872.E.783", lexeme);
+		
+		// This should be the 765436E token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(false, hasToken);
+		assertEquals(null, token);
+		assertEquals("765436E", lexeme);
+		
+		// This should be the 856.E37298. token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(false, hasToken);
+		assertEquals(null, token);
+		assertEquals("856.E37298.", lexeme);
+		
+		// Test end of invalidNumbers.txt
+		hasToken =  test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+		
+		// Test to make sure the above values are correct
+		assertEquals(false, hasToken);
+		assertEquals(null, token);
+		assertEquals(null, lexeme);*/
 		
 		
 		
 		
 		// Test invalidID.txt
-		test = new Scanner(new File("invalidID"));
+		test = new Scanner(new File("invalidID.txt"));
 		
 		// This should be the 2myBank token
 		hasToken = test.nextToken();
@@ -661,7 +781,28 @@ public class ScannerTest {
 		// Test to make sure the above values are correct
 		assertEquals(false, hasToken);
 		assertEquals(null, token);
-		assertEquals("2m", lexeme);
+		assertEquals("2myBank", lexeme);
+		
+		// This should be the 2invalid token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(false, hasToken);
+		assertEquals(null, token);
+		assertEquals("2invalid", lexeme);
+		
+		// Test end of invalidID.txt
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+		
+		// This should be end of file
+		//assertEquals(false, hasToken);
+		//assertEquals(null, token);
+		//assertEquals(null, lexeme);
+		
 		
 	}
 

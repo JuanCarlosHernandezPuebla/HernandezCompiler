@@ -1,0 +1,50 @@
+Juan Carlos Hernandez Puebla
+Professor Steinmetz
+CSC 450
+September 20, 2015
+
+Keywords and Symbols List
+
+keywords:
+"program"
+"if"	
+"var"
+"array"
+"of"
+"integer"
+"real"
+"function"
+"procedure"
+"begin"
+"end"
+"then"
+"else"
+"while"
+"do"
+"or"
+"div"
+"mod"
+"and"
+"not"
+
+symbols:
+"{"
+"}"
+"+"
+"-"
+"*"
+"/"
+":="
+";"
+","
+":"
+"["
+"]"
+"("
+")"
+"="
+"<>"
+"<"
+"<="
+">="
+">"

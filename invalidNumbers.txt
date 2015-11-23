@@ -1,8 +1,8 @@
 {Test for invalid number representations in the mini-Pascal language}
-
 .5
 34775.
-623.634.287
+{623.634.287 + 55} 
+{725.8865. + 83}
 9533.E+764
 745.E-84547
 8973.E7983475
