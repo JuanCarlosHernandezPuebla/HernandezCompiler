@@ -75,8 +75,8 @@ public class Scanner {
 				}
 				else if(currentCharacter == '+' || currentCharacter == '-' || currentCharacter == '*'
 						|| currentCharacter == '/' || currentCharacter == ';' || currentCharacter == ','
-						|| currentCharacter == '[' || currentCharacter == ']' || currentCharacter == '('
-						|| currentCharacter == ')' || currentCharacter == '=') {
+						|| currentCharacter == '.' || currentCharacter == '[' || currentCharacter == ']'
+						|| currentCharacter == '(' || currentCharacter == ')' || currentCharacter == '=') {
 					stateNumber = SYMBOL_COMPLETE;
 					currentLexeme += (char) currentCharacter;
 				}

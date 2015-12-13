@@ -663,8 +663,8 @@ public class ScannerTest {
 		lexeme = test.getLexeme();
 		
 		// Test to make sure the above values are correct
-		assertEquals(false, hasToken);
-		assertEquals(null, token);
+		assertEquals(true, hasToken);
+		assertEquals(TokenType.DOT, token);
 		assertEquals(".", lexeme);
 		
 		// This should be the 5 token

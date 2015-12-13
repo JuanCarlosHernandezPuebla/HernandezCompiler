@@ -43,6 +43,7 @@ public class LookupTable extends Hashtable<String,TokenType> {
 		this.put(":=", TokenType.COLON_EQUALS);
 		this.put(";", TokenType.SEMICOLON);
 		this.put(",", TokenType.COMMA);
+		this.put(".", TokenType.DOT);
 		this.put(":", TokenType.COLON);
 		this.put("[", TokenType.OPEN_BRACKET);
 		this.put("]", TokenType.CLOSE_BRACKET);

@@ -1,7 +1,7 @@
 {Test for invalid number representations in the mini-Pascal language}
-.5
-34775.
-{623.634.287 + 55} 
+.5 {Should return entire .5 lexeme as error}
+34775. + 55 {Should return 34775. as invalid number }
+623.634.287 + 55 {Should return 623.634 as a valid number and .287 as invalid numbers}
 {725.8865. + 83}
 9533.E+764
 745.E-84547

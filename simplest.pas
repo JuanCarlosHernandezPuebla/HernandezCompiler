@@ -1,0 +1,5 @@
+program f;
+
+begin
+end
+.

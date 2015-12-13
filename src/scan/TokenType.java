@@ -36,6 +36,7 @@ public enum TokenType {
 	COLON_EQUALS,
 	SEMICOLON,
 	COMMA,
+	DOT,
 	COLON,
 	OPEN_BRACKET,
 	CLOSE_BRACKET,
