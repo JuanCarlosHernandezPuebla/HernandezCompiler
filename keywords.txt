@@ -1,0 +1,21 @@
+{ Test for keywords}
+program
+if	
+var
+array
+of
+integer
+real
+function
+procedure
+begin
+end
+then
+else
+while
+do
+or
+div
+mod
+and
+not

@@ -11,7 +11,9 @@ import java.io.PushbackReader;
  * assign each lexeme a token type.
  * @author Juan Carlos Hernandez Puebla*/
 public class Scanner {
-
+	
+	// line counter
+	private int counter = 1;
 	// Instance variables
 	private PushbackReader input;
 	private String lexeme;
@@ -72,12 +74,20 @@ public class Scanner {
 				}
 				else if(Character.isWhitespace(currentCharacter)) {
 					// Ignore whitespace 
+					if(currentCharacter == '\n'){
+						// Increment line counter
+						counter++;
+					}
 				}
 				else if(currentCharacter == '+' || currentCharacter == '-' || currentCharacter == '*'
 						|| currentCharacter == '/' || currentCharacter == ';' || currentCharacter == ','
-						|| currentCharacter == '.' || currentCharacter == '[' || currentCharacter == ']'
+						|| currentCharacter == '[' || currentCharacter == ']'
 						|| currentCharacter == '(' || currentCharacter == ')' || currentCharacter == '=') {
 					stateNumber = SYMBOL_COMPLETE;
+					currentLexeme += (char) currentCharacter;
+				}
+				else if(currentCharacter == '.') {
+					stateNumber = 4;
 					currentLexeme += (char) currentCharacter;
 				}
 				else if(currentCharacter == ':') {
@@ -98,6 +108,9 @@ public class Scanner {
 				else if(Character.isDigit(currentCharacter)) {
 					stateNumber = 6;
 					currentLexeme += (char) currentCharacter;
+				}
+				else if(currentCharacter == '\n' ) {
+					counter++;
 				}
 				else {
 					stateNumber = ERROR;
@@ -161,6 +174,17 @@ public class Scanner {
 				else if(currentCharacter == '=') {
 					stateNumber = SYMBOL_COMPLETE;
 					currentLexeme += (char) currentCharacter;
+				}
+				else if(Character.isDigit(currentCharacter)) {
+					while(!(Character.isWhitespace(currentCharacter))) {
+						currentLexeme += (char)currentCharacter;
+						try {
+							currentCharacter = this.input.read();
+						} catch (IOException e) {
+
+						}
+					}
+					stateNumber = ERROR;
 				}
 				else {
 					try {
@@ -256,7 +280,7 @@ public class Scanner {
 				}
 				else {
 					try {
-						this.input.read();
+						this.input.unread(currentCharacter);
 					} catch (IOException e) {
 						//
 					}
@@ -292,7 +316,6 @@ public class Scanner {
 				else {
 					stateNumber = ERROR;
 				}
-
 			} // End of switch
 		} // End of while
 		this.lexeme = currentLexeme;
@@ -335,6 +358,10 @@ public class Scanner {
 	 * @return the token type*/
 	public TokenType getToken() {
 		return this.type;
+	}
+	
+	public int getLine() {
+		return counter;
 	}
 
 }

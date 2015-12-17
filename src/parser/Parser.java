@@ -7,30 +7,30 @@ import java.io.File;
 public class Parser {
 	
 	/** The scanner that provides tokens from the input file. */
-	private Scanner expressionScanner;
+	private Scanner pascalScanner;
 	
 	/** The current token for one token look ahead.  */
 	private TokenType currentToken;
 	
 	public Parser(String inputFile) {
-		expressionScanner = new Scanner(new File (inputFile));
+		pascalScanner = new Scanner(new File (inputFile));
 		
 		// Retrieves the first token as the lookahead token:
-		expressionScanner.nextToken();
-		currentToken = expressionScanner.getToken();
+		pascalScanner.nextToken();
+		currentToken = pascalScanner.getToken();
 	}
 
 	public void match(TokenType expectedToken) {
 		System.out.println("match " + expectedToken + " with current " + currentToken + ":" +
-	expressionScanner.getLexeme());
+	pascalScanner.getLexeme());
 		if(currentToken == expectedToken) {
-			boolean scanResult = expressionScanner.nextToken();
+			boolean scanResult = pascalScanner.nextToken();
 			if(scanResult) {
-				currentToken = expressionScanner.getToken();
+				currentToken = pascalScanner.getToken();
 			}
 			else {
 				System.out.println("No token available");
-				String lexeme = expressionScanner.getLexeme();
+				String lexeme = pascalScanner.getLexeme();
 				if(lexeme == null) {
 					System.out.println("End of file");
 				}
@@ -46,8 +46,7 @@ public class Parser {
 	}
 	
 	public void error() {
-		System.out.println("Error");
-		System.exit(1);
+		throw new Error("Error on line: " + pascalScanner.getLine());
 	}
 	
 	public void program() {	// Finished
@@ -108,7 +107,7 @@ public class Parser {
 			match(TokenType.REAL);
 		}
 		else {
-			//System.out.println("Error in standard_type. Read: " + currentToken);
+			System.out.println("Error in standard_type. Read: " + currentToken);
 			error();
 		}
 	}

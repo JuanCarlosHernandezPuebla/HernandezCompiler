@@ -1,11 +1,10 @@
 {Test for invalid number representations in the mini-Pascal language}
 .5 {Should return entire .5 lexeme as error}
 34775. + 55 {Should return 34775. as invalid number }
-623.634.287 + 55 {Should return 623.634 as a valid number and .287 as invalid numbers}
-{725.8865. + 83}
-9533.E+764
-745.E-84547
-8973.E7983475
-6872.E.783
+623.634.287 + 8932 {Should return 623.634 as a valid number and .287 as invalid numbers}
+9533.E + 764 {Should return 9533.E as invalid number }
+745.E-84547  {Should return 745.E as invalid number}
+8973.E7983475 {Should return 8973.E as invalid number}
+6872.E.783 {Should return 6872.E  and .783 as invalid number}
 765436E
-856.E37298.
+856.E37298. {Should return 856.E and 37298. as invalid number}
