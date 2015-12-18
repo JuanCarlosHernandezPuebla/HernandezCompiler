@@ -1096,6 +1096,172 @@ public class ScannerTest {
 		
 		
 		
+		// Test validID.txt
+		test = new Scanner(new File("validID.txt"));
+		
+		// This should be the a token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(true, hasToken);
+		assertEquals(TokenType.ID, token);
+		assertEquals("a", lexeme);
+		
+		// This should be the B token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(true, hasToken);
+		assertEquals(TokenType.ID, token);
+		assertEquals("B", lexeme);
+		
+		// This should be the a1 token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(true, hasToken);
+		assertEquals(TokenType.ID, token);
+		assertEquals("a1", lexeme);
+		
+		// This should be the B2 token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(true, hasToken);
+		assertEquals(TokenType.ID, token);
+		assertEquals("B2", lexeme);
+		
+		// This should be the angle token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(true, hasToken);
+		assertEquals(TokenType.ID, token);
+		assertEquals("angle", lexeme);
+		
+		// This should be the myBank token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(true, hasToken);
+		assertEquals(TokenType.ID, token);
+		assertEquals("myBank", lexeme);
+		
+		// This should be the Counter token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(true, hasToken);
+		assertEquals(TokenType.ID, token);
+		assertEquals("Counter", lexeme);
+		
+		// This should be the VALUE token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(true, hasToken);
+		assertEquals(TokenType.ID, token);
+		assertEquals("VALUE", lexeme);
+		
+		// This should be the AMOUNT100 token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(true, hasToken);
+		assertEquals(TokenType.ID, token);
+		assertEquals("AMOUNT100", lexeme);
+		
+		// This should be the RADIUSofCircle token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(true, hasToken);
+		assertEquals(TokenType.ID, token);
+		assertEquals("RADIUSofCircle", lexeme);
+		
+		// This should be the R00ML0CATI0N token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(true, hasToken);
+		assertEquals(TokenType.ID, token);
+		assertEquals("R00ML0CATI0N", lexeme);
+		
+		// This should be the degree90 token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(true, hasToken);
+		assertEquals(TokenType.ID, token);
+		assertEquals("degree90", lexeme);
+		
+		// This should be the array1234List token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(true, hasToken);
+		assertEquals(TokenType.ID, token);
+		assertEquals("array1234List", lexeme);
+		
+		// This should be the ARRAY5378LIST token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(true, hasToken);
+		assertEquals(TokenType.ID, token);
+		assertEquals("ARRAY5378LIST", lexeme);
+		
+		// This should be the scann3rPascal token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(true, hasToken);
+		assertEquals(TokenType.ID, token);
+		assertEquals("scann3rPascal", lexeme);
+		
+		// Test end of validID.txt
+		hasToken =  test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(false, hasToken);
+		assertEquals(null, token);
+		assertEquals(null, lexeme);
+		
+		
+		
+		
 		// Test invalidID.txt
 		test = new Scanner(new File("invalidID.txt"));
 		
@@ -1119,15 +1285,45 @@ public class ScannerTest {
 		assertEquals(null, token);
 		assertEquals("2invalid", lexeme);
 		
+		// This should be the 1dir2home token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(false, hasToken);
+		assertEquals(null, token);
+		assertEquals("1dir2home", lexeme);
+		
+		// This should be the * token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(true, hasToken);
+		assertEquals(TokenType.MULTIPLICATION, token);
+		assertEquals("*", lexeme);
+		
+		// This should be the 45 token
+		hasToken = test.nextToken();
+		token = test.getToken();
+		lexeme = test.getLexeme();
+				
+		// Test to make sure the above values are correct
+		assertEquals(true, hasToken);
+		assertEquals(TokenType.NUM, token);
+		assertEquals("45", lexeme);
+		
 		// Test end of invalidID.txt
 		hasToken = test.nextToken();
 		token = test.getToken();
 		lexeme = test.getLexeme();
 		
 		// This should be end of file
-		//assertEquals(false, hasToken);
-		//assertEquals(null, token);
-		//assertEquals(null, lexeme);
+		assertEquals(false, hasToken);
+		assertEquals(null, token);
+		assertEquals(null, lexeme);
 		
 		
 	}

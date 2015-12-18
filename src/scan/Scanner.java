@@ -13,7 +13,7 @@ import java.io.PushbackReader;
 public class Scanner {
 	
 	// line counter
-	private int counter = 1;
+	private int line_Counter = 1;
 	// Instance variables
 	private PushbackReader input;
 	private String lexeme;
@@ -76,7 +76,7 @@ public class Scanner {
 					// Ignore whitespace 
 					if(currentCharacter == '\n'){
 						// Increment line counter
-						counter++;
+						this.line_Counter++;
 					}
 				}
 				else if(currentCharacter == '+' || currentCharacter == '-' || currentCharacter == '*'
@@ -110,7 +110,7 @@ public class Scanner {
 					currentLexeme += (char) currentCharacter;
 				}
 				else if(currentCharacter == '\n' ) {
-					counter++;
+					this.line_Counter++;
 				}
 				else {
 					stateNumber = ERROR;
@@ -202,6 +202,9 @@ public class Scanner {
 				}
 				else if(currentCharacter == '}') {
 					stateNumber = START;
+				}
+				else if(currentCharacter == '\n') {
+					this.line_Counter++;
 				}
 				else {
 					// Stay in state 5(comment state)
@@ -324,22 +327,22 @@ public class Scanner {
 			return false;
 		}
 		else if(stateNumber == ID_COMPLETE) {
-			this.type = lookup.get(this.lexeme);
+			this.type = this.lookup.get(this.lexeme);
 			if(this.type == null) {
 				this.type = TokenType.ID;
 			}
 			return true;
 		}
 		else if(stateNumber == SYMBOL_COMPLETE) {
-			this.type = lookup.get(this.lexeme);
+			this.type = this.lookup.get(this.lexeme);
 			return true;
 		}
 		else if(stateNumber == SHORT_SYMBOL_COMPLETE) {
-			this.type = lookup.get(this.lexeme);
+			this.type = this.lookup.get(this.lexeme);
 			return true;
 		}
 		else if(stateNumber == NUM_COMPLETE) {
-			this.type = lookup.get(lexeme);
+			this.type = this.lookup.get(this.lexeme);
 			if(this.type == null) {
 				this.type = TokenType.NUM;
 			}
@@ -361,7 +364,7 @@ public class Scanner {
 	}
 	
 	public int getLine() {
-		return counter;
+		return this.line_Counter;
 	}
 
 }

@@ -1,0 +1,16 @@
+{Test for valid identifiers in the mini-Pascal language}
+a
+B
+a1
+B2
+angle
+myBank
+Counter
+VALUE
+AMOUNT100
+RADIUSofCircle
+R00ML0CATI0N
+degree90
+array1234List
+ARRAY5378LIST
+scann3rPascal
