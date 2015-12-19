@@ -4,14 +4,17 @@ import static org.junit.Assert.*;
 import java.io.File;
 import org.junit.Test;
 
-/** A unit test based on the input.txt file. It iterates through its tokens and
+/** A unit test based on various test files. It iterates through its tokens and
  * asserts the values for token, token type, and lexeme.
  * @author Juan Carlos Hernandez Puebla*/
 
 public class ScannerTest {
 
+	/** Tests for valid and invalid token, as well as correct identification of lexemes and 
+	 * token types.*/
 	@Test
 	public void test() {
+
 		// Tests the following 'foo bar = < # 7' from input.txt
 		Scanner test = new Scanner(new File("input.txt"));
 		

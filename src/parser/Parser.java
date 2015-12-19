@@ -4,14 +4,19 @@ import scan.Scanner;
 import scan.TokenType;
 import java.io.File;
 
+/** The start of a parser for the mini-Pascal language. Currently recognizes
+ * whether a Pascal program is valid or invalid.
+ * @author Juan Carlos Hernandez Puebla */
 public class Parser {
 	
-	/** The scanner that provides tokens from the input file. */
+	// The scanner that provides tokens from the input file. 
 	private Scanner pascalScanner;
 	
-	/** The current token for one token look ahead.  */
+	// The current token for one token look ahead.
 	private TokenType currentToken;
 	
+	/** Creates a Pascal parser to parse the named file.
+	 * @param inputFile the name of the file to be parsed*/
 	public Parser(String inputFile) {
 		pascalScanner = new Scanner(new File (inputFile));
 		
@@ -20,6 +25,10 @@ public class Parser {
 		currentToken = pascalScanner.getToken();
 	}
 
+	/** Matches a given token against the current token. If they match it loads
+	 *  the next token from the input file into the current token. Else it calls
+	 *  the error function.
+	 * @param expectedToken the token to match. */
 	public void match(TokenType expectedToken) {
 		System.out.println("match " + expectedToken + " with current " + currentToken + ":" +
 	pascalScanner.getLexeme());
@@ -45,11 +54,19 @@ public class Parser {
 		
 	}
 	
+	/** Handles an error by throwing an Error that prints the line where it
+	 *  occurred.*/
 	public void error() {
 		throw new Error("Error on line: " + pascalScanner.getLine());
 	}
 	
-	public void program() {	// Finished
+	/** Implements program -> program id ;
+	 * 						  declarations
+	 * 						  subprogram_declarations
+	 * 						  compound_statement
+	 * 						  .
+	 */
+	public void program() {
 		System.out.println("program");
 		match(TokenType.PROGRAM);
 		match(TokenType.ID);
@@ -60,7 +77,10 @@ public class Parser {
 		match(TokenType.DOT);
 	}
 	
-	public void declarations() {	// Finished
+	/** Implements declarations -> var identifier_list: type ; declarations | 
+	 * 							   lambda
+	 */
+	public void declarations() {	
 		System.out.println("declarations");
 		if(currentToken == TokenType.VAR) {
 			match(TokenType.VAR);
@@ -72,7 +92,10 @@ public class Parser {
 		}
 	}
 	
-	public void identifier_list() {	// Finished
+	/** Implements identifier_list ->  id | 
+	 * 								   id , identifier_list
+	 */
+	public void identifier_list() {	
 		System.out.println("identifier_list");
 		match(TokenType.ID);
 		if(currentToken == TokenType.COMMA) {
@@ -81,7 +104,10 @@ public class Parser {
 		}
 	}
 	
-	public void type() {	// Finished
+	/** Implements type -> standard_type | 
+	 * 					   array [ num : num ] of standard_type
+	 */
+	public void type() {
 		System.out.println("type");
 		if(currentToken == TokenType.ARRAY) {
 			match(TokenType.ARRAY);
@@ -98,7 +124,10 @@ public class Parser {
 		}
 	}
 	
-	public void standard_type() {	// Finished
+	/** Implements standard_type -> integer | 
+	 * 								real
+	 */
+	public void standard_type() {	
 		System.out.println("standard_type");
 		if(currentToken == TokenType.INTEGER) {
 			match(TokenType.INTEGER);
@@ -112,7 +141,11 @@ public class Parser {
 		}
 	}
 	
-	public void subprogram_declarations() {	// Finished
+	/** Implements subprogram_declarations -> subprogram_declarration ; 
+	 * 										  subprograms_declarations |
+	 * 										  lambda
+	 */
+	public void subprogram_declarations() {
 		System.out.println("subprogram_declarations");
 		if(currentToken == TokenType.FUNCTION || currentToken == TokenType.PROCEDURE) {
 			subprogram_declaration();
@@ -121,7 +154,12 @@ public class Parser {
 		}
 	}
 	
-	public void subprogram_declaration() {	// Finished
+	/** Implements subprogram_declaration -> subprogram_head
+	 * 										 declarations
+	 * 										 subprogram_declarations
+	 * 										 compound_statement
+	 */
+	public void subprogram_declaration() {	
 		System.out.println("subprogram_declaration");
 		subprogram_head();
 		declarations();
@@ -129,7 +167,10 @@ public class Parser {
 		compound_statement();
 	}
 	
-	public void subprogram_head() {	// Finished
+	/** Implements subprogram_head -> function id arguments : standard_type ; | 
+	 * 								  procedure id arguments ;
+	 */
+	public void subprogram_head() {	
 		System.out.println("subprogram_head");
 		if(currentToken == TokenType.FUNCTION) {
 			match(TokenType.FUNCTION);
@@ -147,7 +188,10 @@ public class Parser {
 		}
 	}
 	
-	public void arguments() {	// Finished
+	/** Implements arguments -> (parameter_list) | 
+	 * 							lambda
+	 */
+	public void arguments() {	
 		System.out.println("arguments");
 		if(currentToken == TokenType.OPEN_PARENTHESE) {
 			match(TokenType.OPEN_PARENTHESE);
@@ -156,7 +200,10 @@ public class Parser {
 		}
 	}
 	
-	public void parameter_list() {	// Finished
+	/** Implements identifier_list : type | 
+	 * 			   identifier_list : type ; parameter_list 
+	 */
+	public void parameter_list() {	
 		System.out.println("parameter_list");
 		identifier_list();
 		match(TokenType.COLON);
@@ -167,14 +214,19 @@ public class Parser {
 		}
 	}
 	
-	public void compound_statement() {	// Finished
+	/** Implements compound_statement -> begin optional_statements end
+	 */
+	public void compound_statement() {
 		System.out.println("compound_statement");
 		match(TokenType.BEGIN);
 		optional_statements();
 		match(TokenType.END);
 	}
 	
-	public void optional_statements() {	// Finished
+	/** Implements optional_statements -> statement_list | 
+	 * 									  lambda
+	 */
+	public void optional_statements() {	
 		System.out.println("optional_statements");
 		if(currentToken == TokenType.ID || currentToken == TokenType.BEGIN ||
 		   currentToken == TokenType.IF || currentToken == TokenType.WHILE) {
@@ -182,7 +234,10 @@ public class Parser {
 		}
 	}
 	
-	public void statement_list() {	// Finished
+	/** Implements statement_list -> statement | 
+	 * 			   					 statement ; statement_list
+	 */
+	public void statement_list() {	
 		System.out.println("statement_list");
 		statement();
 		if(currentToken == TokenType.SEMICOLON) {
@@ -191,6 +246,12 @@ public class Parser {
 		}
 	}
 	
+	/** Implements statement -> variable assignop expression |
+	 * 							procedure_statement | 
+	 * 							compound_statement |
+	 * 							if expression then statement else statement | 
+	 * 							while expression do statement |
+	 */
 	public void statement() {
 		System.out.println("statement");
 		if(currentToken == TokenType.ID) {
@@ -217,7 +278,10 @@ public class Parser {
 		}
 	}
 	
-	public void variable() {	// Finished 
+	/** Implements variable -> id |
+	 * 						   id[ expression ]
+	 */
+	public void variable() {	
 		System.out.println("variable");
 		match(TokenType.ID);
 		if(currentToken == TokenType.OPEN_BRACKET) {
@@ -227,7 +291,10 @@ public class Parser {
 		}
 	}
 	
-	public void procedure_statement() {	// Finished
+	/** Implements procedure_statement -> id | 
+	 * 									  id ( expression_list )
+	 */
+	public void procedure_statement() {	
 		System.out.println("procedure_statement");
 		match(TokenType.ID);
 		if(currentToken == TokenType.OPEN_PARENTHESE) {
@@ -237,7 +304,10 @@ public class Parser {
 		}
 	}
 	
-	public void expression_list() {	// Finished
+	/** Implements expression_list -> expression | 
+	 * 								  expression , expression_list
+	 */
+	public void expression_list() {	
 		System.out.println("expression_list");
 		expression();
 		if(currentToken == TokenType.COMMA) {
@@ -246,7 +316,10 @@ public class Parser {
 		}
 	}
 	
-	public void expression() {	// Finished
+	/** Implements expression -> simple_expression |
+	 * 							 simple_expression relop simple_expression
+	 */
+	public void expression() {
 		System.out.println("expression");
 		simple_expression();
 		if(currentToken == TokenType.EQUALS) {
@@ -275,7 +348,10 @@ public class Parser {
 		}
 	}
 	
-	public void simple_expression() {	// Finished
+	/** Implements simple_expression -> term simple_part | 
+	 * 									sign term simple_part
+	 */
+	public void simple_expression() {	
 		System.out.println("simple_expression");
 		if(currentToken == TokenType.ID || currentToken == TokenType.NUM ||
 		   currentToken == TokenType.OPEN_PARENTHESE || 
@@ -290,7 +366,10 @@ public class Parser {
 		}
 	}
 	
-	public void simple_part() {	// Finished
+	/** Implements simple_part -> addop term simple_part |
+	 * 							  lambda
+	 */
+	public void simple_part() {	
 		System.out.println("simple_part");
 		if(currentToken == TokenType.PLUS) {
 			match(TokenType.PLUS);
@@ -309,13 +388,18 @@ public class Parser {
 		}
 	}
 	
-	public void term() {	// Finished
+	/** Implements term -> factor term_part
+	 */
+	public void term() {	
 		System.out.println("term");
 		factor();
 		term_part();
 	}
 	
-	public void term_part() {	// Finished
+	/** Implements term_part -> mulop factor term_part | 
+	 * 							lambda
+	 */
+	public void term_part() {
 		System.out.println("term_part");
 		if(currentToken == TokenType.MULTIPLICATION) {
 			match(TokenType.MULTIPLICATION);
@@ -344,7 +428,14 @@ public class Parser {
 		}
 	}
 	
-	public void factor() {	// Finished
+	/** Implements factor -> id | 
+	 * 						 id [ expression ] | 
+	 * 						 id ( expression_list ) |
+	 * 						 num | 
+	 * 						 ( expression ) | 
+	 * 						 not factor
+	 */
+	public void factor() {	
 		System.out.println("factor");
 		if(currentToken == TokenType.ID) {
 			match(TokenType.ID);
@@ -376,7 +467,9 @@ public class Parser {
 		}
 	}
 	
-	public void sign() {	// Finished
+	/** Implements sign -> + | 			   -
+	 */
+	public void sign() {
 		System.out.println("sign");
 		if(currentToken == TokenType.PLUS) {
 			match(TokenType.PLUS);

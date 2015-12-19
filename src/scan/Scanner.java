@@ -362,7 +362,8 @@ public class Scanner {
 	public TokenType getToken() {
 		return this.type;
 	}
-	
+	/**Retrieves the current line from where the Scanner is reading.
+	 * @return the line counter */
 	public int getLine() {
 		return this.line_Counter;
 	}
