@@ -1,5 +1,6 @@
 package symbolTable;
 
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 /** Stores information about an identifier, such as its type and name. It will
@@ -7,6 +8,7 @@ import java.util.Hashtable;
  * As well as the starting and ending index if applicable to the identifier. 
  * @author Juan Carlos Hernandez Puebla */
 public class SymbolTable {
+	
 	// Instance variable
 	private Hashtable<String, InformationTable> symbols = new Hashtable<String, InformationTable>();
 	
@@ -73,7 +75,7 @@ public class SymbolTable {
 		symbols.put(name, information);
 		return true;
 	}
-	
+
 	/** Adds a procedure identifier name to the symbol table as a key, if that
 	 *  name has not already been added to the table. It puts the information
 	 *  table of the name, to the symbol table as its value.
@@ -160,5 +162,22 @@ public class SymbolTable {
 		if(information.kind == IDType.VARIABLE)return true;
 		// The identifier name is not of a variable
 		return false;
+	}
+	
+	/** Prints out a formated table of the symbol table contents. It has
+	 *  columns for the ID, kind, and variable type. It will contain more
+	 *  necessary information.
+	 *  @return formated string of the symbol table. */
+	@Override
+	public String toString() {
+		String information = "";
+		Enumeration<String> keys = symbols.keys();
+		while(keys.hasMoreElements()) {
+			String store = keys.nextElement();
+			information += String.format("%-16s",symbols.get(store).identifier) +
+			String.format("%-16s",symbols.get(store).kind) + "\n";
+		}
+		return  String.format("%-16s", "ID") + String.format("%-16s", "kind") +
+				String.format("%-16s", "variable type") + "\n" + information;
 	}
 }
