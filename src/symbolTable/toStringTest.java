@@ -92,9 +92,7 @@ public class toStringTest {
 		symbol.addVariableName("salary");
 		
 		/* The symbol table should contain salary, count, type, Store, students,
-		 * Calendar, getGrades, Course, printDate, year, rubric, and out.
-		 * 
-		 */
+		 * Calendar, getGrades, Course, printDate, year, rubric, and out.*/
 		table = "ID              kind            variable type   \n" +
 				"Calendar        PROGRAM         \n" +
 				"rubric          PROCEDURE       \n" +

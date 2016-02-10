@@ -7,7 +7,7 @@ import java.util.Hashtable;
  * contain other important information such as whether its of an array value.
  * As well as the starting and ending index if applicable to the identifier. 
  * @author Juan Carlos Hernandez Puebla */
-public class SymbolTable {
+public class SymbolTable { 
 	
 	// Instance variable
 	private Hashtable<String, InformationTable> symbols = new Hashtable<String, InformationTable>();

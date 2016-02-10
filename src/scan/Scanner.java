@@ -10,7 +10,7 @@ import java.io.PushbackReader;
  * machine. Makes each lexeme available one at a time. It uses a lookup table to
  * assign each lexeme a token type.
  * @author Juan Carlos Hernandez Puebla*/
-public class Scanner {
+public class Scanner { 
 	
 	// line counter
 	private int line_Counter = 1;

@@ -49,10 +49,10 @@ public class ParserTest {
 		pp.program();
 		System.out.println("Parse of " + filename + " Successful");
 		
+	
 		
 		
-		
-		System.out.println("\n\n=========Test for subprogram_declarations_add_on2.pas=========");
+	/*	System.out.println("\n\n=========Test for subprogram_declarations_add_on2.pas=========");
 		filename = args[6];
 		pp = new Parser(filename);
 		pp.program();
@@ -75,7 +75,7 @@ public class ParserTest {
 		pp = new Parser(filename);
 		pp.program();
 		System.out.println("Parse of " + filename + " Successful");
-		
+*/		
 		
 		
 		

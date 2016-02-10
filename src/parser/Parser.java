@@ -8,7 +8,7 @@ import symbolTable.SymbolTable;
 /** The start of a parser for the mini-Pascal language. Currently recognizes
  * whether a Pascal program is valid or invalid.
  * @author Juan Carlos Hernandez Puebla */
-public class Parser {
+public class Parser { 
 	
 	// The scanner that provides tokens from the input file. 
 	private Scanner pascalScanner;
@@ -72,9 +72,7 @@ public class Parser {
 	public void program() {
 		System.out.println("program");
 		match(TokenType.PROGRAM);
-		if(!inform.isProgramName(pascalScanner.getLexeme())) {
-			inform.addProgramName(pascalScanner.getLexeme());	
-		}
+		inform.addProgramName(pascalScanner.getLexeme());
 		match(TokenType.ID);
 		match(TokenType.SEMICOLON);
 		declarations();
@@ -103,9 +101,7 @@ public class Parser {
 	 */
 	public void identifier_list() {	
 		System.out.println("identifier_list");
-		if(!inform.isVariableName(pascalScanner.getLexeme())) {
-			inform.addVariableName(pascalScanner.getLexeme());
-		}
+		inform.addVariableName(pascalScanner.getLexeme());
 		match(TokenType.ID);
 		if(currentToken == TokenType.COMMA) {
 			match(TokenType.COMMA);
@@ -183,9 +179,7 @@ public class Parser {
 		System.out.println("subprogram_head");
 		if(currentToken == TokenType.FUNCTION) {
 			match(TokenType.FUNCTION);
-			if(!inform.isFunctionName(pascalScanner.getLexeme())) {
-				inform.addFunctionName(pascalScanner.getLexeme());
-			}
+			inform.addFunctionName(pascalScanner.getLexeme());
 			match(TokenType.ID);
 			arguments();
 			match(TokenType.COLON);
@@ -194,9 +188,7 @@ public class Parser {
 		}
 		else if(currentToken == TokenType.PROCEDURE) {
 			match(TokenType.PROCEDURE);
-			if(!inform.isProcedureName(pascalScanner.getLexeme())) {
-				inform.addProcedureName(pascalScanner.getLexeme());
-			}
+			inform.addProcedureName(pascalScanner.getLexeme());
 			match(TokenType.ID);
 			arguments();
 			match(TokenType.SEMICOLON);
@@ -298,14 +290,13 @@ public class Parser {
 	 */
 	public void variable() {	
 		System.out.println("variable");
-		if(!inform.isVariableName(pascalScanner.getLexeme())) {
-			inform.addVariableName(pascalScanner.getLexeme());
-		}
-		match(TokenType.ID);
-		if(currentToken == TokenType.OPEN_BRACKET) {
-			match(TokenType.OPEN_BRACKET);
-			expression();
-			match(TokenType.CLOSE_BRACKET);
+		if(inform.isVariableName(pascalScanner.getLexeme())) {
+			match(TokenType.ID);
+			if(currentToken == TokenType.OPEN_BRACKET) {
+				match(TokenType.OPEN_BRACKET);
+				expression();
+				match(TokenType.CLOSE_BRACKET);
+			}
 		}
 	}
 	
@@ -314,14 +305,13 @@ public class Parser {
 	 */
 	public void procedure_statement() {	
 		System.out.println("procedure_statement");
-		if(!inform.isProcedureName(pascalScanner.getLexeme())) {
-			inform.addProcedureName(pascalScanner.getLexeme());
-		}
-		match(TokenType.ID);
-		if(currentToken == TokenType.OPEN_PARENTHESE) {
-			match(TokenType.OPEN_PARENTHESE);
-			expression_list();
-			match(TokenType.CLOSE_PARENTHESE);
+		if(inform.isProcedureName(pascalScanner.getLexeme())) {
+			match(TokenType.ID);
+			if(currentToken == TokenType.OPEN_PARENTHESE) {
+				match(TokenType.OPEN_PARENTHESE);
+				expression_list();
+				match(TokenType.CLOSE_PARENTHESE);
+			}
 		}
 	}
 	
@@ -458,8 +448,7 @@ public class Parser {
 	 */
 	public void factor() {	
 		System.out.println("factor");
-		if(!inform.isVariableName(pascalScanner.getLexeme())) {
-			inform.addVariableName(pascalScanner.getLexeme());
+		if(inform.isVariableName(pascalScanner.getLexeme())) {
 			match(TokenType.ID);
 			if(currentToken == TokenType.OPEN_BRACKET) {
 				match(TokenType.OPEN_BRACKET);
