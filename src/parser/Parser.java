@@ -262,9 +262,18 @@ public class Parser {
 	public void statement() {
 		System.out.println("statement");
 		if(currentToken == TokenType.ID) {
-			variable();
-			match(TokenType.COLON_EQUALS);
-			expression();
+			if(inform.isVariableName(pascalScanner.getLexeme())) {
+				variable();
+				match(TokenType.COLON_EQUALS);
+				expression();
+			}
+			else if(inform.isProcedureName(pascalScanner.getLexeme())) {
+				procedure_statement();
+			}
+			else {
+				System.out.println("Error in statement. Read: " + currentToken);
+				error();
+			}
 		}
 		else if(currentToken == TokenType.BEGIN) {
 			compound_statement();
@@ -290,13 +299,11 @@ public class Parser {
 	 */
 	public void variable() {	
 		System.out.println("variable");
-		if(inform.isVariableName(pascalScanner.getLexeme())) {
-			match(TokenType.ID);
-			if(currentToken == TokenType.OPEN_BRACKET) {
-				match(TokenType.OPEN_BRACKET);
-				expression();
-				match(TokenType.CLOSE_BRACKET);
-			}
+		match(TokenType.ID);
+		if(currentToken == TokenType.OPEN_BRACKET) {
+			match(TokenType.OPEN_BRACKET);
+			expression();
+			match(TokenType.CLOSE_BRACKET);
 		}
 	}
 	
@@ -305,13 +312,11 @@ public class Parser {
 	 */
 	public void procedure_statement() {	
 		System.out.println("procedure_statement");
-		if(inform.isProcedureName(pascalScanner.getLexeme())) {
-			match(TokenType.ID);
-			if(currentToken == TokenType.OPEN_PARENTHESE) {
-				match(TokenType.OPEN_PARENTHESE);
-				expression_list();
-				match(TokenType.CLOSE_PARENTHESE);
-			}
+		match(TokenType.ID);
+		if(currentToken == TokenType.OPEN_PARENTHESE) {
+			match(TokenType.OPEN_PARENTHESE);
+			expression_list();
+			match(TokenType.CLOSE_PARENTHESE);
 		}
 	}
 	
