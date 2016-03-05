@@ -12,8 +12,12 @@ public class ProgramNode extends SyntaxTreeNode {
 	
 	/** Creates a ProgrameNode with the specified name passed in.
 	 * @param name The name of the program. */
-	public ProgramNode(String name) {
+	public ProgramNode(String name, DeclarationsNode var,
+			CompoundStatementNode main, SubProgramDeclarationsNode functions) {
 		this.name = name;
+		this.variables = var;
+		this.main = main;
+		this.functions = functions;
 	}
 	
 	/** Creates a String representation of this node.
@@ -23,9 +27,9 @@ public class ProgramNode extends SyntaxTreeNode {
     public String indentedToString(int level) {
         String answer = super.indentedToString(level);
         answer += "Program: " + this.name + "\n";
-        answer += variables.indentedToString(level + 1);
-        answer += main.indentedToString(level + 1);
-        answer += functions.indentedToString(level + 1);
+        answer += this.variables.indentedToString(level + 1);
+        answer += this.functions.indentedToString(level + 1);
+        answer += this.main.indentedToString(level + 1);
         return(answer);
     }
 

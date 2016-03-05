@@ -27,6 +27,11 @@ public class Parser {
 		pascalScanner.nextToken();
 		currentToken = pascalScanner.getToken();
 	}
+	
+	/** Default constructor for a Parser. */
+	public Parser() {
+		
+	}
 
 	/** Matches a given token against the current token. If they match it loads
 	 *  the next token from the input file into the current token. Else it calls
@@ -427,8 +432,8 @@ public class Parser {
 			factor();
 			term_part();
 		}
-		else if(currentToken == TokenType.DIV) {
-			match(TokenType.DIV);
+		else if(currentToken == TokenType.DIVISION) {
+			match(TokenType.DIVISION);
 			factor();
 			term_part();
 		}

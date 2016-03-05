@@ -9,8 +9,9 @@ public class AssignmentStatementNode extends StatementNode {
 	private ExpressionNode expression;
 	
 	/** Default constructor for a AssignmentStatementNode. */
-	public AssignmentStatementNode() {
-		
+	public AssignmentStatementNode(VariableNode variable, ExpressionNode expression) {
+		this.lvalue = variable;
+		this.expression = expression;
 	}
 	
     /** Creates a String representation of this node.
@@ -18,10 +19,10 @@ public class AssignmentStatementNode extends StatementNode {
      * @return A String representing this node. */
     @Override
     public String indentedToString(int level) {
-        String answer = super.indentedToString(level);
-        answer += "Assignment statement: " + this.lvalue + "\n";
+        String answer = super.indentedToString(level + 1);
+        answer += "Assignment statement: \n" + this.lvalue.indentedToString(level + 1);
         answer += expression.indentedToString(level + 1);
         return(answer);
     }
-
+    
 }

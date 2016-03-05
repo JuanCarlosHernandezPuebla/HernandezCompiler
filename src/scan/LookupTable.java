@@ -28,7 +28,7 @@ public class LookupTable extends Hashtable<String,TokenType> {
 		this.put("while", TokenType.WHILE);
 		this.put("do", TokenType.DO);
 		this.put("or", TokenType.OR);
-		this.put("div", TokenType.DIV);
+		this.put("div", TokenType.DIVISION);
 		this.put("mod", TokenType.MOD);
 		this.put("and", TokenType.AND);
 		this.put("not", TokenType.NOT);

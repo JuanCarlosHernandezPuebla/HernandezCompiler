@@ -22,7 +22,7 @@ public enum TokenType {
 	WHILE,
 	DO,
 	OR,
-	DIV,
+	DIVISION,
 	MOD,
 	AND,
 	NOT,

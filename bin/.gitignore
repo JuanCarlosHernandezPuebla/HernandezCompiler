@@ -1,2 +1,4 @@
 /parser/
 /syntaxTree/
+/scan/
+/symbolTable/

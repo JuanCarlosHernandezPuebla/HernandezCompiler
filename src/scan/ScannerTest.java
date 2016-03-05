@@ -1046,14 +1046,14 @@ public class ScannerTest {
 		assertEquals(TokenType.OR, token);
 		assertEquals("or", lexeme);
 		
-		// This should be the div token
+		// This should be the DIVISION token
 		hasToken = test.nextToken();
 		token = test.getToken();
 		lexeme = test.getLexeme();
 		
 		// Test to make sure the above values are correct
 		assertEquals(true, hasToken);
-		assertEquals(TokenType.DIV, token);
+		assertEquals(TokenType.DIVISION, token);
 		assertEquals("div", lexeme);
 		
 		// This should be the mod token

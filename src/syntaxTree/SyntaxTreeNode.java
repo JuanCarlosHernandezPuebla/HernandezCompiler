@@ -2,12 +2,7 @@ package syntaxTree;
 
 /** Represents a Syntax Tree Node for the mini Pascal language.
  * @author Juan Carlos Hernandez Puebla */
-public class SyntaxTreeNode {
-	
-	/** Default constructor for a SyntaxTreeNode. */
-	public SyntaxTreeNode() {
-		
-	}
+public abstract class SyntaxTreeNode {
 	
 	/** Creates a String representation of this node and its children.
 	 * @param level The tree level at which this node resides.
@@ -15,7 +10,7 @@ public class SyntaxTreeNode {
 	public String indentedToString(int level) {
 		String answer = "";
 		if(level > 0) {
-			answer = "|--";
+			answer = "|-- ";
 		}
 		for(int indent = 1;indent < level; indent++) answer += "---";
 		return (answer);

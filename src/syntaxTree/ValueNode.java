@@ -31,7 +31,7 @@ public class ValueNode extends ExpressionNode {
      * @return A String representing this node. */
 	@Override
 	public String indentedToString(int level) {
-		String answer = super.indentedToString(level);
+		String answer = super.indentedToString(level + 1);
 		answer += "Value: " + this.attribute + "\n";
 		return answer;
 	}

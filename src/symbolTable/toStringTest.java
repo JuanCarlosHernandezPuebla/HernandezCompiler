@@ -22,7 +22,7 @@ public class toStringTest {
 		// The symbol table should only contain the identifier Calendar
 		String table = "ID              kind            variable type   \n" +
 					   "Calendar        PROGRAM         \n";
-		assertEquals(symbol.toString(), table);
+		assertEquals(table, symbol.toString());
 		
 		
 		
@@ -33,7 +33,7 @@ public class toStringTest {
 		table = "ID              kind            variable type   \n" +
 				"printDate       FUNCTION        \n" +
 				"Calendar        PROGRAM         \n";
-		assertEquals(symbol.toString(),table);
+		assertEquals(table, symbol.toString());
 		
 				
 		symbol.addProcedureName("out");
@@ -46,7 +46,7 @@ public class toStringTest {
 				"year            VARIABLE        \n" +  
 				"printDate       FUNCTION        \n" +
 				"Calendar        PROGRAM         \n";
-		assertEquals(symbol.toString(),table);
+		assertEquals(table, symbol.toString());
 		
 		// Test presentation of the Symbol Table after invalid additions
 		symbol.addProgramName("year");
@@ -64,7 +64,7 @@ public class toStringTest {
 				"year            VARIABLE        \n" +  
 				"printDate       FUNCTION        \n" +
 				"Calendar        PROGRAM         \n";
-		assertEquals(symbol.toString(),table);
+		assertEquals(table, symbol.toString());
 		
 		// Test presentation of the Symbol Table after more additions
 		symbol.addProgramName("Course");
@@ -83,7 +83,7 @@ public class toStringTest {
 				"getGrades       FUNCTION        \n" +
 				"Calendar        PROGRAM         \n" +
 				"students        VARIABLE        \n";
-		assertEquals(symbol.toString(),table);
+		assertEquals(table, symbol.toString());
 		
 		// Test presentation of the Symbol Table after more additions
 		symbol.addProgramName("Store");
@@ -106,8 +106,7 @@ public class toStringTest {
 				"type            FUNCTION        \n" +  
 				"year            VARIABLE        \n" +  
 				"salary          VARIABLE        \n";
-		assertEquals(symbol.toString(),table);
+		assertEquals(table, symbol.toString());
 			
 	}
-
 }

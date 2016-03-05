@@ -10,8 +10,14 @@ public class CompoundStatementNode extends StatementNode {
 	private ArrayList<StatementNode> statements;
 	
 	/** Creates a CompoundStatementNode. */
-	public CompoundStatementNode(ArrayList<StatementNode> statements) {
-		this.statements = statements;
+	public CompoundStatementNode() {
+		this.statements = new ArrayList<StatementNode>();
+	}
+	
+	/** Adds a statement to the array list of StatementNodes.
+	 * @param statement The StatementNode to be added. */
+	public void addStatement(StatementNode statement) {
+		this.statements.add(statement);
 	}
 	
     /** Creates a String representation of this node.
@@ -20,8 +26,11 @@ public class CompoundStatementNode extends StatementNode {
     @Override
     public String indentedToString(int level) {
         String answer = super.indentedToString(level);
-        answer += "Compound statement: " + this.statements + "\n";
+        answer += "Compound statement: \n";
+        for(StatementNode statement: this.statements) {
+        	answer += statement.indentedToString(level);
+        }
         return(answer);
     }
-
+    
 }
