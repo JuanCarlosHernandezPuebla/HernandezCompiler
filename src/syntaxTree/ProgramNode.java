@@ -27,9 +27,9 @@ public class ProgramNode extends SyntaxTreeNode {
     public String indentedToString(int level) {
         String answer = super.indentedToString(level);
         answer += "Program: " + this.name + "\n";
-        answer += this.variables.indentedToString(level + 1);
-        answer += this.functions.indentedToString(level + 1);
-        answer += this.main.indentedToString(level + 1);
+        answer += this.variables.indentedToString(level);
+        answer += this.functions.indentedToString(level);
+        answer += this.main.indentedToString(level);
         return(answer);
     }
 

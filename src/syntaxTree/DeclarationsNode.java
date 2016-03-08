@@ -25,10 +25,10 @@ public class DeclarationsNode extends SyntaxTreeNode {
 	 * @return A String representing this node. */
     @Override
     public String indentedToString(int level) {
-        String answer = super.indentedToString(level);
+        String answer = super.indentedToString(level + 1);
         answer += "Declarations: \n";
         for(VariableNode var: this.vars) {
-        	answer += var.indentedToString(level);
+        	answer += var.indentedToString(level + 1);
         }
         return answer;
     }

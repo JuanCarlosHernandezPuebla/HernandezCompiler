@@ -25,10 +25,10 @@ public class CompoundStatementNode extends StatementNode {
      * @return A String representing this node. */
     @Override
     public String indentedToString(int level) {
-        String answer = super.indentedToString(level);
+        String answer = super.indentedToString(level + 1);
         answer += "Compound statement: \n";
         for(StatementNode statement: this.statements) {
-        	answer += statement.indentedToString(level);
+        	answer += statement.indentedToString(level + 1);
         }
         return(answer);
     }

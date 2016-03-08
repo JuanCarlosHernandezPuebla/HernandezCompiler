@@ -12,7 +12,7 @@ public abstract class SyntaxTreeNode {
 		if(level > 0) {
 			answer = "|-- ";
 		}
-		for(int indent = 1;indent < level; indent++) answer += "---";
+		for(int indent = 1;indent < level; indent++) answer += "--- ";
 		return (answer);
 	}
 
