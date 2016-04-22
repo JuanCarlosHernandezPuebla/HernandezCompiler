@@ -90,7 +90,10 @@ public class Parser {
 		program.setVariables(declarations());
 		program.setFunctions(subprogram_declarations());
 		program.setMain(compound_statement());
-		match(TokenType.DOT);
+		//match(TokenType.DOT);
+		if(currentToken != TokenType.DOT ){
+			error();
+		}
 		return program;
 	}
 	
@@ -307,7 +310,7 @@ public class Parser {
 			if(inform.isVariableName(pascalScanner.getLexeme())) {
 				VariableNode variable = variable();
 				match(TokenType.COLON_EQUALS);
-				ExpressionNode expression = expression();
+				ExpressionNode expression = expression(null);
 				statement = new AssignmentStatementNode(variable, expression);
 			}
 			else if(inform.isProcedureName(pascalScanner.getLexeme())) {
@@ -323,7 +326,7 @@ public class Parser {
 		}
 		else if(currentToken == TokenType.IF) {
 			match(TokenType.IF);
-			ExpressionNode expression = expression();
+			ExpressionNode expression = expression(null);
 			match(TokenType.THEN);
 			statement = statement();
 			match(TokenType.ELSE);
@@ -331,7 +334,7 @@ public class Parser {
 		}
 		else if(currentToken == TokenType.WHILE) {
 			match(TokenType.WHILE);
-			ExpressionNode expression = expression();
+			ExpressionNode expression = expression(null);
 			match(TokenType.DO);
 			statement = statement();
 		}
@@ -347,7 +350,7 @@ public class Parser {
 		match(TokenType.ID);
 		if(currentToken == TokenType.OPEN_BRACKET) {
 			match(TokenType.OPEN_BRACKET);
-			ExpressionNode expression = expression();
+			ExpressionNode expression = expression(null);
 			match(TokenType.CLOSE_BRACKET);
 		}
 		return variable;
@@ -374,10 +377,10 @@ public class Parser {
 	public ArrayList<ExpressionNode> expression_list() {	
 		System.out.println("expression_list");
 		ArrayList<ExpressionNode> expressions = new ArrayList<ExpressionNode>();
-		expressions.add(expression());
+		expressions.add(expression(null));
 		while(currentToken == TokenType.COMMA) {
 			match(TokenType.COMMA);
-			expressions.add(expression());
+			expressions.add(expression(null));
 		}
 		return expressions;
 	}
@@ -385,52 +388,39 @@ public class Parser {
 	/** Implements expression -> simple_expression |
 	 * 							 simple_expression relop simple_expression
 	 */
-	public ExpressionNode expression() {
+	public ExpressionNode expression(ExpressionNode previous) {
 		System.out.println("expression");
-		ExpressionNode expression = simple_expression();
-		if(currentToken == TokenType.EQUALS) {
+		switch(pascalScanner.getToken()) {
+		case PLUS:
+		case MINUS:
+		case MULTIPLICATION:
+		case DIVISION:
+		case MOD:
+		case AND:
 			OperationNode operation = new OperationNode(currentToken);
-			operation.setLeft(expression);
-			match(TokenType.EQUALS);
-			operation.setRight(simple_expression());
-			return operation;
+			match(currentToken);
+			operation.setLeft(previous);
+			operation.setRight(expression(operation));
+			ExpressionNode temp = expression(operation);
+			return (temp == null ? operation : temp );
+		case NUM:
+			ConstantNode constant = new ConstantNode(Double.parseDouble(pascalScanner.getLexeme()));
+			match(currentToken);
+
+			ExpressionNode temp1 = expression(constant);
+			return (temp1 == null ? constant : temp1);
+		case OPEN_PARENTHESE:
+			match(currentToken);
+			SubExpression subExpression = new SubExpression(expression(null));
+			ExpressionNode temp2 = expression(subExpression);
+			return(temp2 == null ?  subExpression : temp2);
+		case CLOSE_PARENTHESE:
+			match(currentToken);
+			return null;
 		}
-		else if(currentToken == TokenType.LESS_THAN_GREATER_THAN) {
-			OperationNode operation = new OperationNode(currentToken);
-			operation.setLeft(expression);
-			match(TokenType.LESS_THAN_GREATER_THAN);
-			operation.setRight(simple_expression());
-			return operation;
-		}
-		else if(currentToken == TokenType.LESS_THAN) {
-			OperationNode operation = new OperationNode(currentToken);
-			operation.setLeft(expression);
-			match(TokenType.LESS_THAN);
-			operation.setRight(simple_expression());
-			return operation;
-		}
-		else if(currentToken == TokenType.LESS_THAN_EQUALS) {
-			OperationNode operation = new OperationNode(currentToken);
-			operation.setLeft(expression);
-			match(TokenType.LESS_THAN_EQUALS);
-			operation.setRight(simple_expression());
-			return operation;
-		}
-		else if(currentToken == TokenType.GREATER_THAN_EQUALS) {
-			OperationNode operation = new OperationNode(currentToken);
-			operation.setLeft(expression);
-			match(TokenType.GREATER_THAN_EQUALS);
-			operation.setRight(simple_expression());
-			return operation;
-		}
-		else if(currentToken == TokenType.GREATER_THAN) {
-			OperationNode operation = new OperationNode(currentToken);
-			operation.setLeft(expression);
-			match(TokenType.GREATER_THAN);
-			operation.setRight(simple_expression());
-			return operation;
-		}
-		return expression;
+		
+		return null;
+		
 	}
 	
 	/** Implements simple_expression -> term simple_part | 
@@ -612,7 +602,7 @@ public class Parser {
 			match(TokenType.ID);
 			if(currentToken == TokenType.OPEN_BRACKET) {
 				match(TokenType.OPEN_BRACKET);
-				expression = expression();
+				expression = expression(null);
 				match(TokenType.CLOSE_BRACKET);
 			}
 			else if(currentToken == TokenType.OPEN_PARENTHESE) {
@@ -627,7 +617,7 @@ public class Parser {
 		}
 		else if(currentToken == TokenType.OPEN_PARENTHESE) {
 			match(TokenType.OPEN_PARENTHESE);
-			expression = expression();
+			expression = expression(null);
 			match(TokenType.CLOSE_PARENTHESE);
 		}
 		else if(currentToken == TokenType.NOT) {
