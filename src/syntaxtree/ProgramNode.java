@@ -1,4 +1,4 @@
-package syntaxTree;
+package syntaxtree;
 
 /** Represents a Program Node in the syntax tree.
  * @author Juan Carlos Hernandez Puebla */
@@ -13,10 +13,31 @@ public class ProgramNode extends SyntaxTreeNode {
 	/** Creates a ProgrameNode with the specified name passed in.
 	 * @param name The name of the program. */
 	public ProgramNode(String name, DeclarationsNode var,
-			CompoundStatementNode main, SubProgramDeclarationsNode functions) {
+			SubProgramDeclarationsNode functions, CompoundStatementNode main) {
 		this.name = name;
 		this.variables = var;
+		this.functions = functions;
 		this.main = main;
+	}
+	
+	/** Default constructor for a ProgramNode. */
+	public ProgramNode() {
+		
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setVariables(DeclarationsNode variables) {
+		this.variables = variables;
+	}
+	
+	public void setMain(CompoundStatementNode main) {
+		this.main = main;
+	}
+	
+	public void setFunctions(SubProgramDeclarationsNode functions) {
 		this.functions = functions;
 	}
 	

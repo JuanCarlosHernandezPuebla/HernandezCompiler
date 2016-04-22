@@ -1,4 +1,4 @@
-package symbolTable;
+package symboltable;
 
 import static org.junit.Assert.*;
 
@@ -107,6 +107,5 @@ public class toStringTest {
 				"year            VARIABLE        \n" +  
 				"salary          VARIABLE        \n";
 		assertEquals(table, symbol.toString());
-			
 	}
 }

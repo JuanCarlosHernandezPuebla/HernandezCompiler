@@ -1,4 +1,4 @@
-package syntaxTree;
+package syntaxtree;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,11 @@ public class SubProgramDeclarationsNode extends SyntaxTreeNode {
 	
 	/** Default constructor for a SubProgramDeclarationsNode. */
 	public SubProgramDeclarationsNode() {
-		
+		this.procs = new ArrayList<SubProgramDeclarationsNode>();
+	}
+	
+	public void addProcedures(SubProgramDeclarationsNode procedure) {
+		procs.add(procedure);
 	}
 	
 	/** Creates a String representation of this node.
@@ -20,8 +24,11 @@ public class SubProgramDeclarationsNode extends SyntaxTreeNode {
     @Override
     public String indentedToString(int level) {
         String answer = super.indentedToString(level + 1);
-        answer += "Subprogram declarations: " + this.procs+ "\n";
-        return answer;
+        answer += "Subprogram declarations: \n";
+        for(SubProgramDeclarationsNode subprogram: this.procs) {
+        	answer += subprogram.indentedToString(level + 1);
+        }
+        return (answer);
     }
 
 }

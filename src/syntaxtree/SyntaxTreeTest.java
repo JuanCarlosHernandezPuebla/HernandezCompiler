@@ -1,4 +1,4 @@
-package syntaxTree;
+package syntaxtree;
 
 import static org.junit.Assert.*;
 
@@ -11,12 +11,24 @@ import scan.TokenType;
 /** A unit test based on building up a Pascal program. It asserts that the syntax tree
  *  correctly represents the Pascal program that was build.
  * @author Juan Carlos Hernandez Puebla */
-public class SyntaxTreeNodeTest {
+public class SyntaxTreeTest {
 	
 	/** A test for correct representation of the syntax tree corresponding to
 	 *  a build up Pascal program. */
 	@Test
 	public void test() {
+		/* Constructs the following program,
+		 * program sample;
+
+			var  dollars,yen,bitcoin:integer;
+
+			begin
+   				dollars := 1000000;
+   				yen := dollars * 102;
+   				bitcoins := dollars / 400
+			end
+			. 
+		 * Then its tests that its proper syntax tree was generated. */
 		DeclarationsNode variables = new DeclarationsNode();
 		VariableNode dollars = new VariableNode("dollars");
 		VariableNode yen = new VariableNode("yen");
@@ -36,10 +48,11 @@ public class SyntaxTreeNodeTest {
 		bitcoinsValue.setLeft(dollars);
 		bitcoinsValue.setRight(new ValueNode("400"));
 		compound.addStatement(new AssignmentStatementNode(bitcoins, bitcoinsValue));
-		ProgramNode sample = new ProgramNode("sample",variables,compound, sub);
-		String syntaxTree = "Program: sample\n|-- Declarations: \n"
+		ProgramNode sample = new ProgramNode("sample.pas",variables,sub, compound);
+		
+		String syntaxTree = "Program: sample.pas\n|-- Declarations: \n"
 				+ "|-- --- Variable: dollars\n|-- --- Variable: yen\n"
-				+ "|-- --- Variable: bitcoins\n|-- Subprogram declarations: null\n"
+				+ "|-- --- Variable: bitcoins\n|-- Subprogram declarations: \n"
 				+ "|-- Compound statement: \n|-- --- Assignment statement: \n"
 				+ "|-- --- --- Variable: dollars\n|-- --- --- Value: 1000000\n"
 				+ "|-- --- Assignment statement: \n|-- --- --- Variable: yen\n"
@@ -47,7 +60,9 @@ public class SyntaxTreeNodeTest {
 				+ "|-- --- --- --- Value: 102\n|-- --- Assignment statement: \n"
 				+ "|-- --- --- Variable: bitcoins\n|-- --- --- Operation: DIVISION\n"
 				+ "|-- --- --- --- Variable: dollars\n|-- --- --- --- Value: 400\n";
+		
 		assertEquals(syntaxTree, sample.indentedToString(0));
+		//System.out.println(sample.indentedToString(0));
 		
 	}
 

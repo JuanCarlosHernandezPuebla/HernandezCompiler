@@ -1,4 +1,4 @@
-package syntaxTree;
+package syntaxtree;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,7 @@ import java.util.ArrayList;
  * @author Juan Carlos Hernandez Puebla */
 public class DeclarationsNode extends SyntaxTreeNode {
 	
+
 	// Instance variable
 	private ArrayList<VariableNode> vars;
 	
@@ -18,6 +19,10 @@ public class DeclarationsNode extends SyntaxTreeNode {
 	 * @param variable The VariableNode to be added. */
 	public void addVariable(VariableNode variable) {
 		this.vars.add(variable);
+	}
+	
+	public ArrayList<VariableNode> getVariables() {
+		return vars;
 	}
 	
 	/** Creates a String representation of this node.

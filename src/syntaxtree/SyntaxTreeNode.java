@@ -1,4 +1,4 @@
-package syntaxTree;
+package syntaxtree;
 
 /** Represents a Syntax Tree Node for the mini Pascal language.
  * @author Juan Carlos Hernandez Puebla */

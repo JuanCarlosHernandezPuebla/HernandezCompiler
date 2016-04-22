@@ -39,7 +39,7 @@ public class LookupTable extends Hashtable<String,TokenType> {
 		this.put("+", TokenType.PLUS);
 		this.put("-", TokenType.MINUS);
 		this.put("*", TokenType.MULTIPLICATION);
-		this.put("/", TokenType.SLASH);
+		this.put("/", TokenType.DIVISION);
 		this.put(":=", TokenType.COLON_EQUALS);
 		this.put(";", TokenType.SEMICOLON);
 		this.put(",", TokenType.COMMA);

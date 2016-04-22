@@ -1,4 +1,4 @@
-package syntaxTree;
+package syntaxtree;
 import scan.TokenType;
 
 /** Represents an Operation Node (+, -, *, or /) in the syntax tree.

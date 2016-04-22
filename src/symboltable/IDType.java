@@ -1,4 +1,4 @@
-package symbolTable;
+package symboltable;
 
 /** Represents the different types of identifiers.
  * @author Juan Carlos Hernandez Puebla */

@@ -1,4 +1,4 @@
-package syntaxTree;
+package syntaxtree;
 
 /** Represents a node in the syntax tree for statements.
  * @author Juan Carlos Hernandez Puebla */

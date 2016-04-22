@@ -1,4 +1,4 @@
-package syntaxTree;
+package syntaxtree;
 
 /** Represents a Value Node in the syntax tree.
  * @author Juan Carlos Hernandez Puebla */
