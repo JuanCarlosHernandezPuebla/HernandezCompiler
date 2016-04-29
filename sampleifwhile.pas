@@ -1,4 +1,4 @@
-program sample;
+program sampleifwhile;
 
 var  dollars,yen,bitcoins:integer;
 

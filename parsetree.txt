@@ -1,0 +1,28 @@
+Program: sample.pas
+|-- Declarations: 
+|-- --- Variable: dollars
+|-- --- Type: INTEGER
+|-- --- Variable: yen
+|-- --- Type: INTEGER
+|-- --- Variable: bitcoins
+|-- --- Type: INTEGER
+|-- Subprogram declarations: 
+|-- Compound statement: 
+|-- --- Assignment statement: 
+|-- --- --- Variable: dollars
+|-- --- --- Type: INTEGER
+|-- --- --- Value: 1000000
+|-- --- Assignment statement: 
+|-- --- --- Variable: yen
+|-- --- --- Type: INTEGER
+|-- --- --- Operation: MULTIPLICATION
+|-- --- --- --- Variable: dollars
+|-- --- --- --- Type: INTEGER
+|-- --- --- --- Value: 102
+|-- --- Assignment statement: 
+|-- --- --- Variable: bitcoins
+|-- --- --- Type: INTEGER
+|-- --- --- Operation: DIVISION
+|-- --- --- --- Variable: dollars
+|-- --- --- --- Type: INTEGER
+|-- --- --- --- Value: 400
