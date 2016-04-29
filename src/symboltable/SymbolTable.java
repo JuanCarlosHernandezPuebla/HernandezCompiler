@@ -2,6 +2,9 @@ package symboltable;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.NoSuchElementException;
+
+import scan.TokenType;
 
 /** Stores information about an identifier, such as its type and name. It will
  * contain other important information such as whether its of an array value.
@@ -26,15 +29,18 @@ public class SymbolTable {
 		// Field variables
 		String identifier;
 		IDType kind;
+		TokenType expressionType;
 		
 		// Constructors
 		/** Creates an InformationTable that takes in a identifier name and a
 		 *  identifier type to be stored.
 		 * @param identifier the name of the identifier
-		 * @param kind the identifier type */
-		public InformationTable(String identifier, IDType kind) {
+		 * @param kind the identifier type 
+		 * @param expressionType the type of expression. */
+		public InformationTable(String identifier, IDType kind, TokenType expressionType) {
 			this.identifier = identifier;
 			this.kind = kind;
+			this.expressionType = expressionType;
 		}
 		
 		/** Default constructor for an InformationTable. */
@@ -108,6 +114,17 @@ public class SymbolTable {
 		return true;
 	}
 	
+	public void addExpressionType(TokenType expressionType) {
+		Enumeration<InformationTable> inform = symbols.elements();
+		InformationTable element;
+		while(inform.hasMoreElements()) {
+			element = inform.nextElement();
+			if(element.kind == IDType.VARIABLE) {
+				element.expressionType = expressionType;	
+			}
+		}
+	}
+	
 	/** Verifies whether a given identifier name is that of a program. If it is,
 	 *  then it returns true. Otherwise, it returns false if either the name is
 	 *  not found in the symbol table or if it is not of type program. 
@@ -175,7 +192,7 @@ public class SymbolTable {
 		while(keys.hasMoreElements()) {
 			String store = keys.nextElement();
 			information += String.format("%-16s",symbols.get(store).identifier) +
-			String.format("%-16s",symbols.get(store).kind) + "\n";
+			String.format("%-16s",symbols.get(store).kind) + String.format("%-16s",symbols.get(store).expressionType) +"\n";
 		}
 		return  String.format("%-16s", "ID") + String.format("%-16s", "kind") +
 				String.format("%-16s", "variable type") + "\n" + information;

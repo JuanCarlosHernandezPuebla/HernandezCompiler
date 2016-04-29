@@ -1,0 +1,18 @@
+Program: sample.pas
+|-- Declarations: 
+|-- --- Variable: expression
+|-- Subprogram declarations: 
+|-- Compound statement: 
+|-- --- Assignment statement: 
+|-- --- --- Variable: expression
+|-- --- --- Operation: PLUS
+|-- --- --- --- Operation: MINUS
+|-- --- --- --- --- Operation: MULTIPLICATION
+|-- --- --- --- --- --- Value: 5
+|-- --- --- --- --- --- Value: 7
+|-- --- --- --- --- Value: 6
+|-- --- --- --- Operation: MULTIPLICATION
+|-- --- --- --- --- Value: 3
+|-- --- --- --- --- Operation: DIVISION
+|-- --- --- --- --- --- Value: 2
+|-- --- --- --- --- --- Value: 4

@@ -4,11 +4,9 @@ import scan.Scanner;
 import scan.TokenType;
 import symboltable.SymbolTable;
 import syntaxtree.*;
-
 import java.io.File;
 import java.util.ArrayList;
 
-import com.sun.org.apache.xpath.internal.operations.Variable;
 
 /** The start of a parser for the mini-Pascal language. Currently recognizes
  * whether a Pascal program is valid or invalid.
@@ -21,6 +19,10 @@ public class Parser {
 	// The current token for one token look ahead.
 	private TokenType currentToken;
 	
+	// The type of expression
+	private TokenType expressionType;
+	
+	// The information table for identifiers
 	private SymbolTable inform = new SymbolTable(); 
 	
 	/** Creates a Pascal parser to parse the named file.
@@ -37,14 +39,21 @@ public class Parser {
 	public Parser() {
 		
 	}
-
+	
+	/** Retrieves the SymbolTable of this Parser
+	 * @return inform the symbol table of this parser
+	 */
+	public SymbolTable getInform() {
+		return this.inform;
+	}
+	
 	/** Matches a given token against the current token. If they match it loads
 	 *  the next token from the input file into the current token. Else it calls
 	 *  the error function.
 	 * @param expectedToken the token to match. */
 	public void match(TokenType expectedToken) {
-		System.out.println("match " + expectedToken + " with current " + currentToken + ":" +
-	pascalScanner.getLexeme());
+		/*System.out.println("match " + expectedToken + " with current " + currentToken + ":" +
+	pascalScanner.getLexeme());*/
 		if(currentToken == expectedToken) {
 			boolean scanResult = pascalScanner.nextToken();
 			if(scanResult) {
@@ -80,7 +89,7 @@ public class Parser {
 	 * 						  .
 	 */
 	public ProgramNode program() {
-		System.out.println("program");
+		//System.out.println("program");
 		ProgramNode program = new ProgramNode();
 		match(TokenType.PROGRAM);
 		inform.addProgramName(pascalScanner.getLexeme());
@@ -90,10 +99,7 @@ public class Parser {
 		program.setVariables(declarations());
 		program.setFunctions(subprogram_declarations());
 		program.setMain(compound_statement());
-		//match(TokenType.DOT);
-		if(currentToken != TokenType.DOT ){
-			error();
-		}
+		match(TokenType.DOT);
 		return program;
 	}
 	
@@ -101,7 +107,7 @@ public class Parser {
 	 * 							   lambda
 	 */
 	public DeclarationsNode declarations() {	
-		System.out.println("declarations");
+		//System.out.println("declarations");
 		DeclarationsNode declarations = new DeclarationsNode();
 		ArrayList <String> variableList = new ArrayList<String>();
 		ArrayList <VariableNode> additionalVariables = new ArrayList<VariableNode>();
@@ -113,7 +119,11 @@ public class Parser {
 				declarations.addVariable(new VariableNode(varName));
 			}
 			match(TokenType.COLON);
-			type();
+			expressionType = type();
+			this.inform.addExpressionType(expressionType);
+			for(VariableNode element:declarations.getVariables()) {
+				element.setExpressionType(expressionType);
+			}
 			match(TokenType.SEMICOLON);
 			DeclarationsNode moreDeclarations = declarations();
 			additionalVariables = moreDeclarations.getVariables();
@@ -128,7 +138,7 @@ public class Parser {
 	 * 								   id , identifier_list
 	 */
 	public ArrayList<String> identifier_list() {	
-		System.out.println("identifier_list");
+		//System.out.println("identifier_list");
 		ArrayList<String> variables = new ArrayList<String>();
 		inform.addVariableName(pascalScanner.getLexeme());
 		variables.add(pascalScanner.getLexeme());
@@ -145,8 +155,8 @@ public class Parser {
 	/** Implements type -> standard_type | 
 	 * 					   array [ num : num ] of standard_type
 	 */
-	public void type() {
-		System.out.println("type");
+	public TokenType type() {
+		//System.out.println("type");
 		if(currentToken == TokenType.ARRAY) {
 			match(TokenType.ARRAY);
 			match(TokenType.OPEN_BRACKET);
@@ -155,28 +165,31 @@ public class Parser {
 			match(TokenType.NUM);
 			match(TokenType.CLOSE_BRACKET);
 			match(TokenType.OF);
-			standard_type();
+			return standard_type();
 		}
 		else {
-			standard_type();
+			return standard_type();
 		}
 	}
 	
 	/** Implements standard_type -> integer | 
 	 * 								real
 	 */
-	public void standard_type() {	
-		System.out.println("standard_type");
+	public TokenType standard_type() {	
+		//System.out.println("standard_type");
 		if(currentToken == TokenType.INTEGER) {
 			match(TokenType.INTEGER);
+			return TokenType.INTEGER;
 		}
 		else if (currentToken == TokenType.REAL) {
 			match(TokenType.REAL);
+			return TokenType.REAL;
 		}
 		else {
 			System.out.println("Error in standard_type. Read: " + currentToken);
 			error();
 		}
+		return null;
 	}
 	
 	/** Implements subprogram_declarations -> subprogram_declarration ; 
@@ -184,7 +197,7 @@ public class Parser {
 	 * 										  lambda
 	 */
 	public SubProgramDeclarationsNode subprogram_declarations() {
-		System.out.println("subprogram_declarations");
+		//System.out.println("subprogram_declarations");
 		SubProgramDeclarationsNode subprogram = new SubProgramDeclarationsNode();
 		if(currentToken == TokenType.FUNCTION || currentToken == TokenType.PROCEDURE) {
 			subprogram_declaration();
@@ -200,7 +213,7 @@ public class Parser {
 	 * 										 compound_statement
 	 */
 	public void subprogram_declaration() {	
-		System.out.println("subprogram_declaration");
+		//System.out.println("subprogram_declaration");
 		subprogram_head();
 		declarations();
 		subprogram_declarations();
@@ -211,7 +224,7 @@ public class Parser {
 	 * 								  procedure id arguments ;
 	 */
 	public void subprogram_head() {	
-		System.out.println("subprogram_head");
+		//System.out.println("subprogram_head");
 		if(currentToken == TokenType.FUNCTION) {
 			match(TokenType.FUNCTION);
 			inform.addFunctionName(pascalScanner.getLexeme());
@@ -234,7 +247,7 @@ public class Parser {
 	 * 							lambda
 	 */
 	public void arguments() {	
-		System.out.println("arguments");
+		//System.out.println("arguments");
 		if(currentToken == TokenType.OPEN_PARENTHESE) {
 			match(TokenType.OPEN_PARENTHESE);
 			parameter_list();
@@ -246,7 +259,7 @@ public class Parser {
 	 * 			   identifier_list : type ; parameter_list 
 	 */
 	public void parameter_list() {	
-		System.out.println("parameter_list");
+		//System.out.println("parameter_list");
 		identifier_list();
 		match(TokenType.COLON);
 		type();
@@ -259,7 +272,7 @@ public class Parser {
 	/** Implements compound_statement -> begin optional_statements end
 	 */
 	public CompoundStatementNode compound_statement() {
-		System.out.println("compound_statement");
+		//System.out.println("compound_statement");
 		CompoundStatementNode compound = new CompoundStatementNode();
 		match(TokenType.BEGIN);
 		ArrayList<StatementNode> statements = optional_statements();
@@ -274,7 +287,7 @@ public class Parser {
 	 * 									  lambda
 	 */
 	public ArrayList<StatementNode> optional_statements() {	
-		System.out.println("optional_statements");
+		//System.out.println("optional_statements");
 		ArrayList<StatementNode> statements = new ArrayList<StatementNode>();
 		if(currentToken == TokenType.ID || currentToken == TokenType.BEGIN ||
 		   currentToken == TokenType.IF || currentToken == TokenType.WHILE) {
@@ -287,7 +300,7 @@ public class Parser {
 	 * 			   					 statement ; statement_list
 	 */
 	public ArrayList<StatementNode> statement_list() {	
-		System.out.println("statement_list");
+		//System.out.println("statement_list");
 		ArrayList<StatementNode> statements = new ArrayList<StatementNode>();
 		statements.add(statement());
 		while(currentToken == TokenType.SEMICOLON) {
@@ -304,13 +317,14 @@ public class Parser {
 	 * 							while expression do statement |
 	 */
 	public StatementNode statement() {
-		System.out.println("statement");
+		//System.out.println("statement");
 		StatementNode statement = null;
 		if(currentToken == TokenType.ID) {
 			if(inform.isVariableName(pascalScanner.getLexeme())) {
 				VariableNode variable = variable();
+				variable.setExpressionType(expressionType);
 				match(TokenType.COLON_EQUALS);
-				ExpressionNode expression = expression(null);
+				ExpressionNode expression = expression();
 				statement = new AssignmentStatementNode(variable, expression);
 			}
 			else if(inform.isProcedureName(pascalScanner.getLexeme())) {
@@ -325,18 +339,24 @@ public class Parser {
 			statement = compound_statement();
 		}
 		else if(currentToken == TokenType.IF) {
+			IfNode ifNode = new IfNode();
 			match(TokenType.IF);
-			ExpressionNode expression = expression(null);
+			ifNode.setTest(expression());
 			match(TokenType.THEN);
-			statement = statement();
+			ifNode.setThenStatement(statement());
 			match(TokenType.ELSE);
-			statement = statement();
+			ifNode.setElseStatement(statement());
+			statement = ifNode;
+			return statement;
+			
 		}
 		else if(currentToken == TokenType.WHILE) {
 			match(TokenType.WHILE);
-			ExpressionNode expression = expression(null);
+			WhileNode whileNode = new WhileNode();
+			whileNode.setTest(expression());
 			match(TokenType.DO);
-			statement = statement();
+			whileNode.setDoStatement(statement());
+			statement = whileNode;
 		}
 		return statement;
 	}
@@ -345,12 +365,12 @@ public class Parser {
 	 * 						   id[ expression ]
 	 */
 	public VariableNode variable() {	
-		System.out.println("variable");
+		//System.out.println("variable");
 		VariableNode variable = new VariableNode(pascalScanner.getLexeme());
 		match(TokenType.ID);
 		if(currentToken == TokenType.OPEN_BRACKET) {
 			match(TokenType.OPEN_BRACKET);
-			ExpressionNode expression = expression(null);
+			ExpressionNode expression = expression();
 			match(TokenType.CLOSE_BRACKET);
 		}
 		return variable;
@@ -360,7 +380,7 @@ public class Parser {
 	 * 									  id ( expression_list )
 	 */
 	public StatementNode procedure_statement() {	
-		System.out.println("procedure_statement");
+		//System.out.println("procedure_statement");
 		StatementNode statement = null;
 		match(TokenType.ID);
 		if(currentToken == TokenType.OPEN_PARENTHESE) {
@@ -375,12 +395,12 @@ public class Parser {
 	 * 								  expression , expression_list
 	 */
 	public ArrayList<ExpressionNode> expression_list() {	
-		System.out.println("expression_list");
+		//System.out.println("expression_list");
 		ArrayList<ExpressionNode> expressions = new ArrayList<ExpressionNode>();
-		expressions.add(expression(null));
+		expressions.add(expression());
 		while(currentToken == TokenType.COMMA) {
 			match(TokenType.COMMA);
-			expressions.add(expression(null));
+			expressions.add(expression());
 		}
 		return expressions;
 	}
@@ -388,46 +408,59 @@ public class Parser {
 	/** Implements expression -> simple_expression |
 	 * 							 simple_expression relop simple_expression
 	 */
-	public ExpressionNode expression(ExpressionNode previous) {
-		System.out.println("expression");
-		switch(pascalScanner.getToken()) {
-		case PLUS:
-		case MINUS:
-		case MULTIPLICATION:
-		case DIVISION:
-		case MOD:
-		case AND:
+	public ExpressionNode expression() {
+		//System.out.println("expression");
+		ExpressionNode expression = simple_expression();
+		if(currentToken == TokenType.EQUALS) {
 			OperationNode operation = new OperationNode(currentToken);
-			match(currentToken);
-			operation.setLeft(previous);
-			operation.setRight(expression(operation));
-			ExpressionNode temp = expression(operation);
-			return (temp == null ? operation : temp );
-		case NUM:
-			ConstantNode constant = new ConstantNode(Double.parseDouble(pascalScanner.getLexeme()));
-			match(currentToken);
-
-			ExpressionNode temp1 = expression(constant);
-			return (temp1 == null ? constant : temp1);
-		case OPEN_PARENTHESE:
-			match(currentToken);
-			SubExpression subExpression = new SubExpression(expression(null));
-			ExpressionNode temp2 = expression(subExpression);
-			return(temp2 == null ?  subExpression : temp2);
-		case CLOSE_PARENTHESE:
-			match(currentToken);
-			return null;
+			operation.setLeft(expression);
+			match(TokenType.EQUALS);
+			operation.setRight(simple_expression());
+			return operation;
 		}
-		
-		return null;
-		
+		else if(currentToken == TokenType.LESS_THAN_GREATER_THAN) {
+			OperationNode operation = new OperationNode(currentToken);
+			operation.setLeft(expression);
+			match(TokenType.LESS_THAN_GREATER_THAN);
+			operation.setRight(simple_expression());
+			return operation;
+		}
+		else if(currentToken == TokenType.LESS_THAN) {
+			OperationNode operation = new OperationNode(currentToken);
+			operation.setLeft(expression);
+			match(TokenType.LESS_THAN);
+			operation.setRight(simple_expression());
+			return operation;
+		}
+		else if(currentToken == TokenType.LESS_THAN_EQUALS) {
+			OperationNode operation = new OperationNode(currentToken);
+			operation.setLeft(expression);
+			match(TokenType.LESS_THAN_EQUALS);
+			operation.setRight(simple_expression());
+			return operation;
+		}
+		else if(currentToken == TokenType.GREATER_THAN_EQUALS) {
+			OperationNode operation = new OperationNode(currentToken);
+			operation.setLeft(expression);
+			match(TokenType.GREATER_THAN_EQUALS);
+			operation.setRight(simple_expression());
+			return operation;
+		}
+		else if(currentToken == TokenType.GREATER_THAN) {
+			OperationNode operation = new OperationNode(currentToken);
+			operation.setLeft(expression);
+			match(TokenType.GREATER_THAN);
+			operation.setRight(simple_expression());
+			return operation;
+		}
+		return expression;
 	}
 	
 	/** Implements simple_expression -> term simple_part | 
 	 * 									sign term simple_part
 	 */
 	public ExpressionNode simple_expression() {	
-		System.out.println("simple_expression");
+		//System.out.println("simple_expression");
 		ExpressionNode expression = null;
 		if(currentToken == TokenType.ID || currentToken == TokenType.NUM ||
 		   currentToken == TokenType.OPEN_PARENTHESE || 
@@ -437,32 +470,32 @@ public class Parser {
 			if(operation == null) {
 				return expression;
 			}
+			operation.attachBottomLeft(expression);
+			expression = operation;
 		}
-		else if(currentToken == TokenType.PLUS || currentToken == TokenType.MINUS) {
+		/*else if(currentToken == TokenType.PLUS || currentToken == TokenType.MINUS) {
 			sign();
 			expression = term();
 			OperationNode operation = simple_part();
 			if(operation == null ) {
 				return expression;
 			}
-		}
+			
+		}*/
 		return expression;
 	}
 	
 	/** Parses an addup.
-	 * Implements addop -> + | -
+	 * Implements addop -> + | - | or
 	 * @return An OperationNode built from the add or subtract operation.
 	 */
 	public OperationNode addop() {
-		System.out.println("addop");
-		OperationNode operation = new OperationNode(currentToken);
+		//System.out.println("addop");
+		OperationNode operation = null;
 		if(currentToken == TokenType.PLUS || currentToken == TokenType.MINUS
 				|| currentToken == TokenType.OR) {
+			operation = new OperationNode(currentToken);
 			match(currentToken);
-		}
-		else {
-			System.out.println("Error in ADDOP. Saw " + currentToken);
-			error();
 		}
 		return operation;
 	}
@@ -471,73 +504,50 @@ public class Parser {
 	 * 							  lambda
 	 */
 	public OperationNode simple_part() {	
-		System.out.println("simple_part");
-		ExpressionNode expression = null;
-		OperationNode operation = null;
-		if(currentToken == TokenType.PLUS) {
-			operation = new OperationNode(currentToken);
-			match(TokenType.PLUS);
-			expression = term();
-			operation.setRight(expression);
-			OperationNode temp = simple_part();
-			if(temp == null) {
-				return operation;
-			}
-			operation.setLeft(temp);
+		//System.out.println("simple_part");
+		OperationNode operation = addop();
+		if(operation == null) {
+			return null;
 		}
-		else if(currentToken == TokenType.MINUS) {
-			operation = new OperationNode(currentToken);
-			match(TokenType.MINUS);
-			expression = term();
-			operation.setRight(expression);
-			OperationNode temp = simple_part();
-			if(temp == null) {
-				return operation;
-			}
-			operation.setLeft(temp);
+		ExpressionNode expression = term();
+		operation.setRight(expression);
+		OperationNode temp = simple_part();
+		if(temp == null) {
+			return operation;
 		}
-		else if(currentToken == TokenType.OR) {
-			operation = new OperationNode(currentToken);
-			match(TokenType.OR);
-			expression = term();
-			operation.setRight(expression);
-			OperationNode temp = simple_part();
-			operation.setLeft(temp);
-		}
+		temp.attachBottomLeft(operation);
+		operation = temp;
 		return operation;
 	}
 	
 	/** Implements term -> factor term_part
 	 */
 	public ExpressionNode term() {	
-		System.out.println("term");
+		//System.out.println("term");
 		ExpressionNode expression = factor();
 		OperationNode operation = term_part();
 		if(operation == null) {
 			return expression;
 		}
-		operation.setLeft(expression);
+		operation.attachBottomLeft(expression);
 		expression = operation;
 		return expression;
 	}
 	
 	/** Parses an mulop.
-	 * IMplements mulop -> * | / 
+	 * IMplements mulop -> * | / | slash | mod | and
 	 * @return An OperationNode built from the multiply or divide operation.
 	 */
 	public OperationNode mulop() {
-		System.out.println("mulop");
-		OperationNode operation = new OperationNode(currentToken);
+		//System.out.println("mulop");
+		OperationNode operation = null;
 		if(currentToken == TokenType.MULTIPLICATION
 				|| currentToken == TokenType.SLASH 
 				|| currentToken == TokenType.DIVISION
 				|| currentToken == TokenType.MOD
 				|| currentToken == TokenType.AND) {
+			operation = new OperationNode(currentToken);
 			match(currentToken);			
-		}
-		else {
-			System.out.println("Error in MULOP. Saw " + currentToken);
-			error();
 		}
 		return operation;
 	}
@@ -546,44 +556,19 @@ public class Parser {
 	 * 							lambda
 	 */
 	public OperationNode term_part() {
-		System.out.println("term_part");
-		ExpressionNode expression = null;
-		OperationNode operation = null;
-		if(currentToken == TokenType.MULTIPLICATION) {
-			operation = new OperationNode(currentToken); 
-			match(TokenType.MULTIPLICATION);
-			ExpressionNode right = factor();
-			operation.setRight(right);
-			OperationNode temp = term_part();
+		//System.out.println("term_part");
+		OperationNode operation = mulop();
+		if(operation == null) {
+			return null;
 		}
-		else if (currentToken == TokenType.SLASH) {
-			operation = new OperationNode(currentToken);
-			match(TokenType.SLASH);
-			ExpressionNode right = factor();
-			operation.setRight(right);
-			OperationNode temp = term_part();
+		ExpressionNode right = factor();
+		operation.setRight(right);
+		OperationNode temp = term_part();
+		if(temp == null) {
+			return operation;			
 		}
-		else if(currentToken == TokenType.DIVISION) {
-			operation = new OperationNode(currentToken);
-			match(TokenType.DIVISION);
-			ExpressionNode right = factor();
-			operation.setRight(right);
-			OperationNode temp = term_part();
-		}
-		else if(currentToken == TokenType.MOD) {
-			operation = new OperationNode(currentToken);
-			match(TokenType.MOD);
-			ExpressionNode right = factor();
-			operation.setRight(right);
-			OperationNode temp = term_part();
-		}
-		else if(currentToken == TokenType.AND) {
-			operation = new OperationNode(currentToken);
-			match(TokenType.AND);
-			ExpressionNode right = factor();
-			operation.setRight(right);
-			OperationNode temp = term_part();
-		}
+		temp.attachBottomLeft(operation);
+		operation = temp;
 		return operation;
 	}
 	
@@ -595,14 +580,15 @@ public class Parser {
 	 * 						 not factor
 	 */
 	public ExpressionNode factor() {	
-		System.out.println("factor");
+		//System.out.println("factor");
 		ExpressionNode expression = null;
 		if(inform.isVariableName(pascalScanner.getLexeme())) {
 			expression = new VariableNode(pascalScanner.getLexeme());
+			expression.setExpressionType(expressionType);
 			match(TokenType.ID);
 			if(currentToken == TokenType.OPEN_BRACKET) {
 				match(TokenType.OPEN_BRACKET);
-				expression = expression(null);
+				expression = expression();
 				match(TokenType.CLOSE_BRACKET);
 			}
 			else if(currentToken == TokenType.OPEN_PARENTHESE) {
@@ -617,7 +603,7 @@ public class Parser {
 		}
 		else if(currentToken == TokenType.OPEN_PARENTHESE) {
 			match(TokenType.OPEN_PARENTHESE);
-			expression = expression(null);
+			expression = expression();
 			match(TokenType.CLOSE_PARENTHESE);
 		}
 		else if(currentToken == TokenType.NOT) {
@@ -633,7 +619,7 @@ public class Parser {
 	/** Implements sign -> + | -
 	 */
 	public void sign() {
-		System.out.println("sign");
+		//System.out.println("sign");
 		if(currentToken == TokenType.PLUS) {
 			match(TokenType.PLUS);
 		}

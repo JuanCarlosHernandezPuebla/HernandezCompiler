@@ -2,17 +2,20 @@ package parser;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+
 import org.junit.Test;
 
 public class SampleParserTest {
 
 	@Test
-	public void test() {
+	public void test() throws IOException {
 		// Tests for well written Pascal programs
 				System.out.println("=========Test for sample.pas=========");
 				String filename = "sample.pas";
 				Parser sample = new Parser(filename);
 				System.out.println(sample.program().indentedToString(0));
+				System.out.println(sample.getInform().toString());
 				String syntaxTree = "Program: sample\n|-- Declarations: \n"
 						+ "|-- --- Variable: dollars\n|-- --- Variable: yen\n"
 						+ "|-- --- Variable: bitcoins\n|-- Subprogram declarations: null\n"
@@ -23,6 +26,7 @@ public class SampleParserTest {
 						+ "|-- --- --- --- Value: 102\n|-- --- Assignment statement: \n"
 						+ "|-- --- --- Variable: bitcoins\n|-- --- --- Operation: DIVISION\n"
 						+ "|-- --- --- --- Variable: dollars\n|-- --- --- --- Value: 400\n";
+				
 				
 				//assertEquals(syntaxTree, sample.program().indentedToString(0));
 				

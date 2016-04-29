@@ -59,6 +59,14 @@ public class OperationNode extends ExpressionNode {
 	public void setRight(ExpressionNode right) {
 		this.right = right;
 	}
+	
+	public void attachBottomLeft(ExpressionNode left) {
+		OperationNode top = this;
+		while(top.getLeft() != null) {
+			top = (OperationNode) top.getLeft();	
+		}
+		top.setLeft(left);
+	}
 
 	/** Returns the operation token as a String.
 	 * @return The String version of the operation token. */
@@ -75,7 +83,7 @@ public class OperationNode extends ExpressionNode {
 		String answer = super.indentedToString(level + 1);
 		answer += "Operation: " + this.operation + "\n";
 		answer += left.indentedToString(level + 1);
-		answer += right.indentedToString(level +1 );
+		answer += right.indentedToString(level + 1);
 		return(answer);
 	}
 

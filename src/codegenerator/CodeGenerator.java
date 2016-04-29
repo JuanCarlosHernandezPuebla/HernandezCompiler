@@ -2,8 +2,15 @@ package codegenerator;
 import scan.TokenType;
 import syntaxtree.ExpressionNode;
 import syntaxtree.OperationNode;
+import syntaxtree.ProgramNode;
 import syntaxtree.ValueNode;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import parser.Parser;
 /**
  * This class will create MIPS assembly code for a Syntax tree.
  * @author Juan Carlos Hernandez Puebla
@@ -87,6 +94,50 @@ public class CodeGenerator {
         }
         currentTRegister -=2;
         return( code);
+    }
+    public static void main(String[]args) throws IOException {
+    	if(args.length < 2) {
+    		System.out.println("You must pass in a pascal file, as well as the "
+    				+ "output file names for the syntax tree and symbol table!\n"
+    				+ "Example: sample.pas syntaxtree.txt symboltable.txt");
+    		return;
+    	}
+    	Parser parse = new Parser(args[0]);
+    	ProgramNode program = parse.program();
+    	System.out.println("The syntax tree is \n" + program.indentedToString(0));
+    	System.out.println("The symbol table is \n" + parse.getInform().toString());
+    	FileWriter writer = null;
+    	// Writing out the syntax tree
+		try {
+			File file = new File(args[1]);
+			FileWriter fileWriter = new FileWriter(file);
+			
+			writer = fileWriter;
+			writer.write(program.indentedToString(0));
+		}
+		catch(IOException e) {
+			System.out.println("Failed writing to file");
+		}
+		finally {
+			if(writer != null) {
+				writer.close();
+			}
+		}
+		// Writing out the symbol table
+		try {
+			File file = new File(args[2]);
+			FileWriter fileWriter = new FileWriter(file);
+			writer = fileWriter;
+			writer.write(parse.getInform().toString());
+		}
+		catch(IOException e) {
+			System.out.println("Failed writing to file");
+		}
+		finally {
+			if(writer != null) {
+				writer.close();
+			}
+		}
     }
     
     /**

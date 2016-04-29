@@ -21,7 +21,8 @@ public class toStringTest {
 		
 		// The symbol table should only contain the identifier Calendar
 		String table = "ID              kind            variable type   \n" +
-					   "Calendar        PROGRAM         \n";
+					   "Calendar        PROGRAM         null            \n";
+
 		assertEquals(table, symbol.toString());
 		
 		
@@ -31,8 +32,8 @@ public class toStringTest {
 		
 		// The symbol table should now contain the identifiers Calendar and printDate
 		table = "ID              kind            variable type   \n" +
-				"printDate       FUNCTION        \n" +
-				"Calendar        PROGRAM         \n";
+				"printDate       FUNCTION        null            \n" +
+				"Calendar        PROGRAM         null            \n";
 		assertEquals(table, symbol.toString());
 		
 				
@@ -42,10 +43,10 @@ public class toStringTest {
 		
 		//  The symbol table should now contain year, out, printDate, and Calendar
 		table = "ID              kind            variable type   \n" +
-				"out             PROCEDURE       \n" +
-				"year            VARIABLE        \n" +  
-				"printDate       FUNCTION        \n" +
-				"Calendar        PROGRAM         \n";
+				"out             PROCEDURE       null            \n" +
+				"year            VARIABLE        null            \n" +  
+				"printDate       FUNCTION        null            \n" +
+				"Calendar        PROGRAM         null            \n";
 		assertEquals(table, symbol.toString());
 		
 		// Test presentation of the Symbol Table after invalid additions
@@ -60,10 +61,10 @@ public class toStringTest {
 		
 		//  The Symbol Table should still contain year, out, printDate, and Calendar
 		table = "ID              kind            variable type   \n" +
-				"out             PROCEDURE       \n" +
-				"year            VARIABLE        \n" +  
-				"printDate       FUNCTION        \n" +
-				"Calendar        PROGRAM         \n";
+				"out             PROCEDURE       null            \n" +
+				"year            VARIABLE        null            \n" +  
+				"printDate       FUNCTION        null            \n" +
+				"Calendar        PROGRAM         null            \n";
 		assertEquals(table, symbol.toString());
 		
 		// Test presentation of the Symbol Table after more additions
@@ -75,14 +76,14 @@ public class toStringTest {
 		/* The symbol table should now contain students, rubric, getGrades,
 		 *Course, year, out, printDate, and Calendar.*/
 		table = "ID              kind            variable type   \n" +
-				"out             PROCEDURE       \n" +
-				"rubric          PROCEDURE       \n" +
-				"year            VARIABLE        \n" +  
-				"printDate       FUNCTION        \n" +
-				"Course          PROGRAM         \n" +
-				"getGrades       FUNCTION        \n" +
-				"Calendar        PROGRAM         \n" +
-				"students        VARIABLE        \n";
+				"out             PROCEDURE       null            \n" +
+				"rubric          PROCEDURE       null            \n" +
+				"year            VARIABLE        null            \n" +  
+				"printDate       FUNCTION        null            \n" +
+				"Course          PROGRAM         null            \n" +
+				"getGrades       FUNCTION        null            \n" +
+				"Calendar        PROGRAM         null            \n" +
+				"students        VARIABLE        null            \n";
 		assertEquals(table, symbol.toString());
 		
 		// Test presentation of the Symbol Table after more additions
@@ -94,18 +95,18 @@ public class toStringTest {
 		/* The symbol table should contain salary, count, type, Store, students,
 		 * Calendar, getGrades, Course, printDate, year, rubric, and out.*/
 		table = "ID              kind            variable type   \n" +
-				"Calendar        PROGRAM         \n" +
-				"rubric          PROCEDURE       \n" +
-				"printDate       FUNCTION        \n" +
-				"out             PROCEDURE       \n" +
-				"count           PROCEDURE       \n" +
-				"getGrades       FUNCTION        \n" +
-				"Store           PROGRAM         \n" +
-				"students        VARIABLE        \n" +
-				"Course          PROGRAM         \n" +
-				"type            FUNCTION        \n" +  
-				"year            VARIABLE        \n" +  
-				"salary          VARIABLE        \n";
+				"Calendar        PROGRAM         null            \n" +
+				"rubric          PROCEDURE       null            \n" +
+				"printDate       FUNCTION        null            \n" +
+				"out             PROCEDURE       null            \n" +
+				"count           PROCEDURE       null            \n" +
+				"getGrades       FUNCTION        null            \n" +
+				"Store           PROGRAM         null            \n" +
+				"students        VARIABLE        null            \n" +
+				"Course          PROGRAM         null            \n" +
+				"type            FUNCTION        null            \n" +  
+				"year            VARIABLE        null            \n" +  
+				"salary          VARIABLE        null            \n";
 		assertEquals(table, symbol.toString());
 	}
 }

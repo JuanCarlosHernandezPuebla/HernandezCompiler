@@ -51,15 +51,19 @@ public class SyntaxTreeTest {
 		ProgramNode sample = new ProgramNode("sample.pas",variables,sub, compound);
 		
 		String syntaxTree = "Program: sample.pas\n|-- Declarations: \n"
-				+ "|-- --- Variable: dollars\n|-- --- Variable: yen\n"
-				+ "|-- --- Variable: bitcoins\n|-- Subprogram declarations: \n"
-				+ "|-- Compound statement: \n|-- --- Assignment statement: \n"
-				+ "|-- --- --- Variable: dollars\n|-- --- --- Value: 1000000\n"
+				+ "|-- --- Variable: dollars\n|-- --- Type: null\n"
+				+ "|-- --- Variable: yen\n|-- --- Type: null\n"
+				+ "|-- --- Variable: bitcoins\n|-- --- Type: null\n"
+				+ "|-- Subprogram declarations: \n|-- Compound statement: \n"
+				+ "|-- --- Assignment statement: \n|-- --- --- Variable: dollars\n"
+				+ "|-- --- --- Type: null\n|-- --- --- Value: 1000000\n"
 				+ "|-- --- Assignment statement: \n|-- --- --- Variable: yen\n"
-				+ "|-- --- --- Operation: MULTIPLICATION\n|-- --- --- --- Variable: dollars\n"
+				+ "|-- --- --- Type: null\n|-- --- --- Operation: MULTIPLICATION\n"
+				+ "|-- --- --- --- Variable: dollars\n|-- --- --- --- Type: null\n"
 				+ "|-- --- --- --- Value: 102\n|-- --- Assignment statement: \n"
-				+ "|-- --- --- Variable: bitcoins\n|-- --- --- Operation: DIVISION\n"
-				+ "|-- --- --- --- Variable: dollars\n|-- --- --- --- Value: 400\n";
+				+ "|-- --- --- Variable: bitcoins\n|-- --- --- Type: null\n"
+				+ "|-- --- --- Operation: DIVISION\n|-- --- --- --- Variable: dollars\n"
+				+ "|-- --- --- --- Type: null\n|-- --- --- --- Value: 400\n";
 		
 		assertEquals(syntaxTree, sample.indentedToString(0));
 		//System.out.println(sample.indentedToString(0));
